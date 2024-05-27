@@ -2,6 +2,9 @@
 
 A new Flutter project.
 
+Adam Karepin
+Tim Hegenkötter
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
