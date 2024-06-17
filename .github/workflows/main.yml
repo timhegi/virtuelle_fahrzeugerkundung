@@ -1,11 +1,9 @@
-name: Flutter build apk 
+name: Flutter build apk
 
 on:
   push:
     branches: [ main ]
-  
   workflow_dispatch:
-  
 
 jobs:
   build_apk:
@@ -16,16 +14,16 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Flutter einrichten
-        uses: actions/setup-flutter@v3
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: 'latest'
 
       - name: APK erstellen
-        run: flutter build apk
+        run: flutter build apk --release
 
       - name: APK-Artefakt hochladen
         uses: actions/upload-artifact@v3
         with:
           name: apk
-          path: build/app/outputs/apk/release/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
           
