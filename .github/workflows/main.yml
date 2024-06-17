@@ -1,0 +1,23 @@
+name: Flutter Test
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: actions/setup-flutter@v3
+        with:
+          flutter-version: 'latest'
+
+      - name: Flutter Runner
+        uses: jddeep/Flutter-Runner@1.2.0
+        with:
+          args: test
