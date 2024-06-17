@@ -15,8 +15,6 @@ jobs:
 
       - name: Flutter einrichten
         uses: subosito/flutter-action@v2.14.0
-        with:
-          flutter-version: 'latest'
 
       - name: APK erstellen
         run: flutter build apk --release
