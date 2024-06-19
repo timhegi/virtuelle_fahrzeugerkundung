@@ -11,7 +11,7 @@ Future<void> main() async {
   // Check if the box "cars" is already open
   if (!Hive.isBoxOpen('cars')) {
     // Register the adapter
-    // Hive.registerAdapter(CarAdapter()); // Auskommentiert, da bei meinem aktuellen stand noch fehler auftreten
+    Hive.registerAdapter(CarAdapter());
     await Hive.openBox<Car>('cars');
   }
 

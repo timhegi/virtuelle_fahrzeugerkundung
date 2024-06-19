@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-// part "car_model.g.dart"; // Auskommentiert, da bei meinem aktuellen stand noch fehler auftreten
+part "car_model.g.dart";
 
 @HiveType(typeId: 1)
 class Car{

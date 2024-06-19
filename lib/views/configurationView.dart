@@ -23,9 +23,7 @@ class _ConfigurationViewState extends State<ConfigurationView> {
 
   static const List<Widget> _widgetOptionsTopNav = <Widget>[
     // ListOfCars(), // Auskommentiert, da bei meinem aktuellen stand noch fehler auftreten
-    Center(
-      child: Text(' Configuration Tab 1'),
-    ),
+    ListOfCars(),
     Configuration(),
     Center(
       child: Text('Configuration Tab 3'),

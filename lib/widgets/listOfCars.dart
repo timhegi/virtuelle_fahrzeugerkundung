@@ -30,21 +30,25 @@ class _ListOfCarsState extends State<ListOfCars> {
           ),
           Container(
             height: 300,
-            child: ValueListenableBuilder<Box<Car>>(
-              valueListenable: Hive.box<Car>('cars').listenable(),
-              builder: (context, box, _) {
-                return ListView.builder(
-                  itemCount: box.length,
-                  itemBuilder: (context, index) {
-                    final car = box.getAt(index);
-                    return ListTile(
-                      title: Text(car!.model ?? ""),
-                      subtitle: Text(car!.brand ?? ""),
-                    );
-                  },
-                );
+            child: FutureBuilder(
+              // As openBox method is a future
+              future: Hive.openBox("cars"),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  // If some errors occurs
+                  if(snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  } else {
+                    return Text("Test");
+                  }
+                  // openBox is future method
+                  // It will take a little time
+                  // it's good to return something in else condition
+                } else {
+                  return Scaffold();
+                }
               },
-            ),
+            )
           ),
         ],
       ),
