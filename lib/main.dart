@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:virtuelle_fahrzeugerkundung/views/configurationView.dart';
 import 'package:virtuelle_fahrzeugerkundung/models/car_model.dart';
-import 'package:virtuelle_fahrzeugerkundung/views/menue.dart';
 
 Future<void> main() async {
   // Initialize Hive
@@ -11,12 +11,9 @@ Future<void> main() async {
   // Check if the box "cars" is already open
   if (!Hive.isBoxOpen('cars')) {
     // Register the adapter
-    Hive.registerAdapter(CarAdapter());
+    // Hive.registerAdapter(CarAdapter()); // Auskommentiert, da bei meinem aktuellen stand noch fehler auftreten
     await Hive.openBox<Car>('cars');
   }
-
-
-
 
   // Create some cars
   var vwPolo = Car(model: "VW Polo", brand: "VW", type: "SUV", baseColor: "Gelb", price: 13000.00);
@@ -31,46 +28,20 @@ Future<void> main() async {
   // Run the app
   runApp(const MyApp());
 
-  if(Hive.box<Car>("cars").isOpen) {
+  if (Hive.box<Car>("cars").isOpen) {
     Hive.box<Car>("cars").close();
   }
-
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black54),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Titel'),
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Virtuelle Fahrzeugerkundung',
+      home: ConfigurationView(),
     );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Menue();
   }
 }
