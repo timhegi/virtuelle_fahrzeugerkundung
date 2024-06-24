@@ -178,7 +178,7 @@ class _ConfigurationViewState extends State<ConfigurationView>
 
   double _getFABPrice() {
     return 112000.0;
-    // Hier soll irgendwann das car.price zurückgegeben werden
+    // Hier soll irgendwann der car.price zurückgegeben werden
   }
 
   IconData _getFABIcon() {
