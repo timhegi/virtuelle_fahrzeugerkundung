@@ -106,12 +106,13 @@ class _ConfigurationState extends State<Configuration> {
   Widget buildColorSelector(String title, List<ColorInfo> colorOptions,
       ColorInfo? selectedColor, Function(ColorInfo) onTap) {
     return Card(
+      margin: const EdgeInsets.all(16),
       color: Colors.grey[700],
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Text(
               title,
               style: const TextStyle(
@@ -129,7 +130,7 @@ class _ConfigurationState extends State<Configuration> {
             itemCount: colorOptions.length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(6.0),
                 child: Material(
                   borderRadius: BorderRadius.circular(8),
                   color: Colors.transparent,
@@ -161,12 +162,13 @@ class _ConfigurationState extends State<Configuration> {
 
   Widget buildFuelTypeSelector() {
     return Card(
+      margin: const EdgeInsets.all(16),
       color: Colors.grey[700],
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(16.0),
             child: Text(
               "Fuel Type",
               style: TextStyle(
@@ -184,7 +186,7 @@ class _ConfigurationState extends State<Configuration> {
             itemCount: fuelTypes.length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(6.0),
                 child: InkWell(
                   onTap: () {
                     setState(() {

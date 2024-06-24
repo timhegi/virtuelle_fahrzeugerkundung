@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:virtuelle_fahrzeugerkundung/widgets/listOfCars.dart';
 import '../widgets/configuration.dart';
-
-//Test123
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ConfigurationView extends StatefulWidget {
   const ConfigurationView({super.key});
@@ -11,12 +10,14 @@ class ConfigurationView extends StatefulWidget {
   State<ConfigurationView> createState() => _ConfigurationViewState();
 }
 
-class _ConfigurationViewState extends State<ConfigurationView> {
-  int _selectedBottomNavIndex = 0; // For BottomNavigationBar
-  int _selectedTopNavIndex = 0; // For TabBar
+class _ConfigurationViewState extends State<ConfigurationView> with SingleTickerProviderStateMixin {
+  int _selectedBottomNavIndex = 0;
+  int _selectedTopNavIndex = 0;
+  bool _firstTabReady = false;
+  bool _secondTabReady = false;
+  late TabController _tabController;
 
   static const List<Widget> _widgetOptionsBottomNav = <Widget>[
-    // ListOfCars(), // Auskommentiert, da bei meinem aktuellen stand noch fehler auftreten
     Center(
       child: Text(' Home'),
     ),
@@ -24,7 +25,6 @@ class _ConfigurationViewState extends State<ConfigurationView> {
   ];
 
   static const List<Widget> _widgetOptionsTopNav = <Widget>[
-    // ListOfCars(), // Auskommentiert, da bei meinem aktuellen stand noch fehler auftreten
     ListOfCars(),
     Configuration(),
     Center(
@@ -32,16 +32,61 @@ class _ConfigurationViewState extends State<ConfigurationView> {
     ),
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(_handleTabSelection);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  void _handleTabSelection() {
+    if (_tabController.indexIsChanging) {
+      if (_tabController.index == 0 ||
+          (_tabController.index == 1 && _firstTabReady) ||
+          (_tabController.index == 2 && _secondTabReady)) {
+        setState(() {
+          _selectedTopNavIndex = _tabController.index;
+        });
+      } else {
+        _tabController.index = _selectedTopNavIndex;
+      }
+    }
+  }
+
   void _onBottomNavigationItemTapped(int index) {
     setState(() {
       _selectedBottomNavIndex = index;
     });
   }
 
-  void _onTopNavigationItemTapped(int index) {
-    setState(() {
-      _selectedTopNavIndex = index;
-    });
+  void _onFabPressed() {
+    if (_selectedTopNavIndex == 0) {
+      setState(() {
+        _firstTabReady = true;
+        _tabController.animateTo(1);
+      });
+    } else if (_selectedTopNavIndex == 1) {
+      setState(() {
+        _secondTabReady = true;
+        _tabController.animateTo(2);
+      });
+    } else if (_selectedTopNavIndex == 2) {
+      Fluttertoast.showToast(
+          msg: "Anfrage abgeschickt",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 18.0
+      );
+    }
   }
 
   @override
@@ -52,56 +97,71 @@ class _ConfigurationViewState extends State<ConfigurationView> {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: DefaultTabController(
-        length: _widgetOptionsTopNav.length,
-        initialIndex: _selectedTopNavIndex,
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.grey[850],
-            foregroundColor: Colors.white70,
-            centerTitle: true,
-            title: const Text('Virtuelle Fahrzeugerkundung'),
-            bottom: _widgetOptionsBottomNav.elementAt(_selectedBottomNavIndex)
-                    is Configuration
-                ? TabBar(
-                    dividerHeight: 0.0,
-                    unselectedLabelColor: Colors.grey,
-                    labelColor: Colors.white,
-                    indicatorColor: Colors.green,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    indicatorWeight: 5.0,
-                    labelStyle: const TextStyle(fontSize: 13.0),
-                    tabs: const [
-                      Tab(text: 'Choosing car model'),
-                      Tab(text: 'Car Configuration'),
-                      Tab(text: 'Overview of inquiry'),
-                    ],
-                    onTap: _onTopNavigationItemTapped,
-                  )
-                : null,
-          ),
-          body: Center(
-            child: _selectedBottomNavIndex == 0
-                ? _widgetOptionsBottomNav.elementAt(_selectedBottomNavIndex)
-                : _widgetOptionsTopNav.elementAt(_selectedTopNavIndex),
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Colors.black,
-            unselectedItemColor: Colors.grey,
-            selectedItemColor: Colors.white,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.grey[850],
+          foregroundColor: Colors.white70,
+          centerTitle: true,
+          title: const Text('Virtuelle Fahrzeugerkundung'),
+          bottom: _widgetOptionsBottomNav.elementAt(_selectedBottomNavIndex)
+          is Configuration
+              ? TabBar(
+            controller: _tabController,
+            dividerHeight: 0.0,
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.grey,
+            indicatorColor: Colors.green,
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicatorWeight: 5.0,
+            tabs: [
+              const Tab(text: 'Auswahl'),
+              Tab(
+                child: Opacity(
+                  opacity: _firstTabReady ? 1.0 : 0.5,
+                  child: const Text('Anpassen'),
+                ),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.tune),
-                label: 'Configuration',
+              Tab(
+                child: Opacity(
+                  opacity: _secondTabReady ? 1.0 : 0.5,
+                  child: const Text('Abschluss'),
+                ),
               ),
             ],
-            currentIndex: _selectedBottomNavIndex,
-            onTap: _onBottomNavigationItemTapped,
+          )
+              : null,
+        ),
+        body: Center(
+          child: _selectedBottomNavIndex == 0
+              ? _widgetOptionsBottomNav.elementAt(_selectedBottomNavIndex)
+              : IndexedStack(
+            index: _selectedTopNavIndex,
+            children: _widgetOptionsTopNav,
           ),
+        ),
+        floatingActionButton: _selectedBottomNavIndex == 1
+            ? FloatingActionButton(
+          onPressed: _onFabPressed,
+          child:
+          const Icon(Icons.check),
+        )
+            : null,
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.black,
+          unselectedItemColor: Colors.grey,
+          selectedItemColor: Colors.white,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.tune),
+              label: 'Configuration',
+            ),
+          ],
+          currentIndex: _selectedBottomNavIndex,
+          onTap: _onBottomNavigationItemTapped,
         ),
       ),
     );
