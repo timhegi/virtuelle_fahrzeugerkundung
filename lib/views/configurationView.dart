@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:virtuelle_fahrzeugerkundung/views/customWideFAB.dart';
+import 'package:virtuelle_fahrzeugerkundung/widgets/fovoriteCars.dart';
 import 'package:virtuelle_fahrzeugerkundung/widgets/listOfCars.dart';
 import '../widgets/configuration.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class ConfigurationView extends StatefulWidget {
   const ConfigurationView({super.key});
@@ -20,9 +21,7 @@ class _ConfigurationViewState extends State<ConfigurationView>
   late TabController _tabController;
 
   static const List<Widget> _widgetOptionsBottomNav = <Widget>[
-    Center(
-      child: Text(' Home'),
-    ),
+    FavoriteCars(),
     Configuration()
   ];
 
@@ -104,50 +103,49 @@ class _ConfigurationViewState extends State<ConfigurationView>
           foregroundColor: Colors.white70,
           centerTitle: true,
           title: const Text('Virtuelle Fahrzeugerkundung'),
-          bottom: _widgetOptionsBottomNav.elementAt(_selectedBottomNavIndex)
-                  is Configuration
+          bottom: _selectedBottomNavIndex == 1
               ? TabBar(
-                  controller: _tabController,
-                  dividerHeight: 0.0,
-                  labelColor: Colors.white,
-                  unselectedLabelColor: Colors.grey,
-                  indicatorColor: Colors.green,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorWeight: 5.0,
-                  tabs: [
-                    const Tab(text: 'Auswahl'),
-                    Tab(
-                      child: Opacity(
-                        opacity: _firstTabReady ? 1.0 : 0.5,
-                        child: const Text('Anpassen'),
-                      ),
-                    ),
-                    Tab(
-                      child: Opacity(
-                        opacity: _secondTabReady ? 1.0 : 0.5,
-                        child: const Text('Abschluss'),
-                      ),
-                    ),
-                  ],
-                )
+            controller: _tabController,
+            dividerHeight: 0.0,
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.grey,
+            indicatorColor: Colors.green,
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicatorWeight: 5.0,
+            tabs: [
+              const Tab(text: 'Auswahl'),
+              Tab(
+                child: Opacity(
+                  opacity: _firstTabReady ? 1.0 : 0.5,
+                  child: const Text('Anpassen'),
+                ),
+              ),
+              Tab(
+                child: Opacity(
+                  opacity: _secondTabReady ? 1.0 : 0.5,
+                  child: const Text('Abschluss'),
+                ),
+              ),
+            ],
+          )
               : null,
         ),
         body: Center(
           child: _selectedBottomNavIndex == 0
               ? _widgetOptionsBottomNav.elementAt(_selectedBottomNavIndex)
               : IndexedStack(
-                  index: _selectedTopNavIndex,
-                  children: _widgetOptionsTopNav,
-                ),
+            index: _selectedTopNavIndex,
+            children: _widgetOptionsTopNav,
+          ),
         ),
         floatingActionButton: _selectedBottomNavIndex == 1
             ? CustomWideFAB(
-                onPressed: _onFabPressed,
-                mainText: _getFABMainText(),
-                subText: 'All prices incl.',
-                price: _getFABPrice(),
-                icon: _getFABIcon(),
-              )
+          onPressed: _onFabPressed,
+          mainText: _getFABMainText(),
+          subText: 'All prices incl.',
+          price: _getFABPrice(),
+          icon: _getFABIcon(),
+        )
             : null,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         bottomNavigationBar: BottomNavigationBar(
