@@ -78,7 +78,6 @@ class _ListOfCarsState extends State<ListOfCars> {
       baseColor: car.baseColor,
       price: car.price,
     );
-    Hive.box<Car>("cars").add(selectedCar);
     Provider.of<CarSelectionProvider>(context, listen: false)
         .selectCar(selectedCar);
     print(
