@@ -21,7 +21,7 @@ class CustomWideFAB extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40.0),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery.of(context).size.width * 0.95,
         height: 56.0,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
