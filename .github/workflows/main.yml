@@ -1,27 +1,35 @@
 name: Flutter build apk
-
 on:
   push:
     branches: [ master ]
   workflow_dispatch:
-
 jobs:
   build_apk:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout-Code
         uses: actions/checkout@v4.1.7
-
+      
+      - name: Set up Java
+        uses: actions/setup-java@v4.2.1
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      
       - name: Flutter einrichten
         uses: subosito/flutter-action@v2.14.0
-
+        with:
+          flutter-version: '3.19.0'
+          channel: 'stable'
+      
+      - name: Get dependencies
+        run: flutter pub get
+      
       - name: APK erstellen
         run: flutter build apk --release
-
+      
       - name: APK-Artefakt hochladen
         uses: actions/upload-artifact@v4.3.3
         with:
           name: apk
           path: build/app/outputs/flutter-apk/app-release.apk
-          
