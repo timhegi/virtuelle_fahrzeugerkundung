@@ -19,11 +19,10 @@ class CustomWideFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40.0),
       child: SizedBox(
-        width:
-            MediaQuery.of(context).size.width * 0.9, // 90% der Bildschirmbreite
-        height: 56.0, // Standard-FAB-Höhe
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: 56.0,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.black,
@@ -36,36 +35,45 @@ class CustomWideFAB extends StatelessWidget {
           onPressed: onPressed,
           child: Row(
             children: [
-              const Padding(padding: EdgeInsets.only(left: 16.0)),
-              Text(
-                mainText,
-                style: const TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
+              const SizedBox(width: 16.0),
+              Expanded(
+                flex: 2,
+                child: Text(
+                  mainText,
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               ),
-              const Spacer(),
               Expanded(
+                flex: 1,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
                         '${price.toStringAsFixed(2)} €',
                         style: const TextStyle(
-                          fontSize: 18.0,
+                          fontSize: 14.0,
                           fontWeight: FontWeight.normal,
                         ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                       Text(
                         subText,
                         style: const TextStyle(
-                          fontSize: 14.0,
+                          fontSize: 10.0,
                           color: Colors.grey,
                           fontWeight: FontWeight.normal,
                         ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                     ],
                   ),

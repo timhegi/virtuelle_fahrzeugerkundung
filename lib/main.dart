@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:virtuelle_fahrzeugerkundung/services/carSelectionProvider.dart';
 import 'package:virtuelle_fahrzeugerkundung/views/configurationView.dart';
 import 'package:virtuelle_fahrzeugerkundung/models/car_model.dart';
 
@@ -12,7 +14,12 @@ void main() async {
 
   await Hive.openBox<Car>('cars');
 
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CarSelectionProvider(),
+      child: const MyApp(),
+    ),
+  );
 
   // Schließen der Box beim Beenden der App
   Hive.box<Car>('cars').watch().listen((event) async {

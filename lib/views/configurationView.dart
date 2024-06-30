@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:virtuelle_fahrzeugerkundung/services/carSelectionProvider.dart';
 import 'package:virtuelle_fahrzeugerkundung/views/customWideFAB.dart';
 import 'package:virtuelle_fahrzeugerkundung/widgets/fovoriteCars.dart';
 import 'package:virtuelle_fahrzeugerkundung/widgets/listOfCars.dart';
 import '../widgets/configuration.dart';
+import 'GradientBottomNavBar.dart';
 
 class ConfigurationView extends StatefulWidget {
   const ConfigurationView({super.key});
@@ -20,17 +23,16 @@ class _ConfigurationViewState extends State<ConfigurationView>
   bool _secondTabReady = false;
   late TabController _tabController;
 
+  void _onCarSelected() {
+    setState(() {
+      _firstTabReady = true;
+      _tabController.animateTo(1);
+    });
+  }
+
   static const List<Widget> _widgetOptionsBottomNav = <Widget>[
     FavoriteCars(),
     Configuration()
-  ];
-
-  static const List<Widget> _widgetOptionsTopNav = <Widget>[
-    ListOfCars(),
-    Configuration(),
-    Center(
-      child: Text('Configuration Tab 3'),
-    ),
   ];
 
   @override
@@ -67,12 +69,7 @@ class _ConfigurationViewState extends State<ConfigurationView>
   }
 
   void _onFabPressed() {
-    if (_selectedTopNavIndex == 0) {
-      setState(() {
-        _firstTabReady = true;
-        _tabController.animateTo(1);
-      });
-    } else if (_selectedTopNavIndex == 1) {
+    if (_selectedTopNavIndex == 1) {
       setState(() {
         _secondTabReady = true;
         _tabController.animateTo(2);
@@ -85,7 +82,7 @@ class _ConfigurationViewState extends State<ConfigurationView>
           timeInSecForIosWeb: 2,
           backgroundColor: Colors.green,
           textColor: Colors.white,
-          fontSize: 18.0);
+          fontSize: 16.0);
     }
   }
 
@@ -105,82 +102,84 @@ class _ConfigurationViewState extends State<ConfigurationView>
           title: const Text('Virtuelle Fahrzeugerkundung'),
           bottom: _selectedBottomNavIndex == 1
               ? TabBar(
-            controller: _tabController,
-            dividerHeight: 0.0,
-            labelColor: Colors.white,
-            unselectedLabelColor: Colors.grey,
-            indicatorColor: Colors.green,
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicatorWeight: 5.0,
-            tabs: [
-              const Tab(text: 'Auswahl'),
-              Tab(
-                child: Opacity(
-                  opacity: _firstTabReady ? 1.0 : 0.5,
-                  child: const Text('Anpassen'),
-                ),
-              ),
-              Tab(
-                child: Opacity(
-                  opacity: _secondTabReady ? 1.0 : 0.5,
-                  child: const Text('Abschluss'),
-                ),
-              ),
-            ],
-          )
+                  controller: _tabController,
+                  dividerHeight: 0.0,
+                  labelColor: Colors.white,
+                  unselectedLabelColor: Colors.grey,
+                  indicatorColor: Colors.green,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorWeight: 5.0,
+                  tabs: [
+                    const Tab(text: 'Auswahl'),
+                    Tab(
+                      child: Opacity(
+                        opacity: _firstTabReady ? 1.0 : 0.3,
+                        child: const Text('Anpassen'),
+                      ),
+                    ),
+                    Tab(
+                      child: Opacity(
+                        opacity: _secondTabReady ? 1.0 : 0.3,
+                        child: const Text('Abschluss'),
+                      ),
+                    ),
+                  ],
+                )
               : null,
         ),
-        body: Center(
-          child: _selectedBottomNavIndex == 0
-              ? _widgetOptionsBottomNav.elementAt(_selectedBottomNavIndex)
-              : IndexedStack(
-            index: _selectedTopNavIndex,
-            children: _widgetOptionsTopNav,
-          ),
-        ),
-        floatingActionButton: _selectedBottomNavIndex == 1
-            ? CustomWideFAB(
-          onPressed: _onFabPressed,
-          mainText: _getFABMainText(),
-          subText: 'All prices incl.',
-          price: _getFABPrice(),
-          icon: _getFABIcon(),
-        )
-            : null,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.black,
-          unselectedItemColor: Colors.grey,
-          selectedItemColor: Colors.white,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+        body: Stack(
+          children: [
+            Center(
+              child: _selectedBottomNavIndex == 0
+                  ? _widgetOptionsBottomNav.elementAt(_selectedBottomNavIndex)
+                  : IndexedStack(
+                      index: _selectedTopNavIndex,
+                      children: [
+                        ListOfCars(onCarSelected: _onCarSelected),
+                        const Configuration(),
+                        const Center(
+                          child: Text('Configuration Tab 3'),
+                        ),
+                      ],
+                    ),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.tune),
-              label: 'Configuration',
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: GradientBottomNavBar(
+                currentIndex: _selectedBottomNavIndex,
+                onTap: _onBottomNavigationItemTapped,
+              ),
             ),
           ],
-          currentIndex: _selectedBottomNavIndex,
-          onTap: _onBottomNavigationItemTapped,
         ),
+        floatingActionButton: _selectedBottomNavIndex == 1
+            ? Consumer<CarSelectionProvider>(
+                builder: (context, carProvider, child) {
+                  final selectedCar = carProvider.selectedCar;
+                  if (_selectedTopNavIndex != 0) {
+                    return CustomWideFAB(
+                      onPressed: _onFabPressed,
+                      mainText: '${selectedCar?.brand!} ${selectedCar?.model!}',
+                      subText: 'All prices incl.',
+                      price: selectedCar?.price ?? 0.0,
+                      icon: _getFABIcon(),
+                    );
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                },
+              )
+            : null,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
 
-  String _getFABMainText() {
-    return 'G-Klasse';
-    // Hier soll irgendwann das car.model zurückgegeben werden
-  }
-
-  double _getFABPrice() {
-    return 112000.0;
-    // Hier soll irgendwann der car.price zurückgegeben werden
-  }
-
   IconData _getFABIcon() {
-    switch (_selectedTopNavIndex) { // Hier kann man die icons für die aktuelle ansicht anpassen, sofern nötig
+    switch (_selectedTopNavIndex) {
+      // Hier kann man die icons für die aktuelle ansicht anpassen, sofern nötig
       case 0:
         return Icons.directions_car;
       case 1:

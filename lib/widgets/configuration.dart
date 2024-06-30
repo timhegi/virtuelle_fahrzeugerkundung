@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:virtuelle_fahrzeugerkundung/widgets/modelRenderer.dart';
 
 class ColorInfo {
   final Color color;
@@ -41,7 +42,7 @@ class _ConfigurationState extends State<Configuration> {
     ColorInfo(Colors.blue, 'Blue'),
   ];
 
-  final fuelTypes = ['Petrol', 'Diesel', 'Electric', 'Hybrid'];
+  final fuelTypes = ['Benzin', 'Diesel', 'Elektrisch', 'Hybrid'];
 
   final images = [
     'lib/assets/images/image1.jpg',
@@ -51,7 +52,7 @@ class _ConfigurationState extends State<Configuration> {
 
   @override
   void initState() {
-    // Es soll standardmäßig die erste Farbe ausgewählt sein
+    // Es soll standardmäßig das erste Element ausgewählt sein
     super.initState();
     selectedInteriorColor = interiorColors[0];
     selectedExteriorColor = exteriorColors[0];
@@ -77,29 +78,45 @@ class _ConfigurationState extends State<Configuration> {
               ),
             ),
             buildColorSelector(
-                "Interior Color", interiorColors, selectedInteriorColor,
+                "Innenfarbe", interiorColors, selectedInteriorColor,
                 (ColorInfo color) {
               setState(() {
                 selectedInteriorColor = color;
               });
             }),
+            buildFuelTypeSelector(),
             buildColorSelector(
-                "Exterior Color", exteriorColors, selectedExteriorColor,
+                "Außenfarbe", exteriorColors, selectedExteriorColor,
                 (ColorInfo color) {
               setState(() {
                 selectedExteriorColor = color;
               });
             }),
-            buildColorSelector("Brake Color", brakeColors, selectedBrakeColor,
+            buildColorSelector(
+                "Bremsensattelfarbe", brakeColors, selectedBrakeColor,
                 (ColorInfo color) {
               setState(() {
                 selectedBrakeColor = color;
               });
             }),
-            buildFuelTypeSelector(),
+            const SizedBox(height: 120),
           ],
         ),
       ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const ModelRenderer(),
+              ),
+            );
+          },
+          child: const Icon(Icons.add),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
 
@@ -129,6 +146,7 @@ class _ConfigurationState extends State<Configuration> {
             ),
             itemCount: colorOptions.length,
             itemBuilder: (context, index) {
+              var color = colorOptions[index].color;
               return Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: Material(
@@ -141,14 +159,27 @@ class _ConfigurationState extends State<Configuration> {
                       height: 30,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: colorOptions[index].color,
+                        color: color,
                         border: selectedColor == colorOptions[index]
                             ? Border.all(
-                                color: Colors.lightGreenAccent,
+                                color: color.computeLuminance() > 0.5
+                                    ? Colors.black
+                                    : Colors.white,
                                 width: 2,
                               )
                             : null,
                       ),
+                      child: selectedColor == colorOptions[index]
+                          ? Center(
+                              child: Icon(
+                                Icons.check,
+                                color: color.computeLuminance() > 0.5
+                                    ? Colors.black
+                                    : Colors.white,
+                                size: 20,
+                              ),
+                            )
+                          : null,
                     ),
                   ),
                 ),
@@ -170,7 +201,7 @@ class _ConfigurationState extends State<Configuration> {
           const Padding(
             padding: EdgeInsets.all(16.0),
             child: Text(
-              "Fuel Type",
+              "Antriebsart",
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -200,15 +231,33 @@ class _ConfigurationState extends State<Configuration> {
                       borderRadius: BorderRadius.circular(8),
                       border: selectedFuelType == fuelTypes[index]
                           ? Border.all(
-                              color: Colors.lightGreenAccent,
+                              color: Colors.white,
                               width: 2,
                             )
                           : null,
                     ),
                     child: Center(
-                      child: Text(
-                        fuelTypes[index],
-                        style: const TextStyle(color: Colors.white),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              fuelTypes[index],
+                              style: const TextStyle(
+                                color: Colors.white,
+                                overflow: TextOverflow.ellipsis,
+                                fontSize: 12,
+                              ),
+                              maxLines: 1,
+                            ),
+                          ),
+                          if (selectedFuelType == fuelTypes[index])
+                            const Icon(
+                              Icons.check,
+                              size: 16,
+                              color: Colors.white,
+                            ),
+                        ],
                       ),
                     ),
                   ),
