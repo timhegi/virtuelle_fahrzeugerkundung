@@ -236,7 +236,7 @@ class _ListOfCarsState extends State<ListOfCars> {
                                           color: Colors.red),
                                       tooltip: 'Auto zu Favoriten hinzufügen',
                                       onPressed: () =>
-                                          _selectCar(filteredCars[index]),
+                                          Hive.box<Car>("cars").add(selectedCar);
                                     ),
                                   ],
                                 ),
