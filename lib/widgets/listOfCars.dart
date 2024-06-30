@@ -235,8 +235,17 @@ class _ListOfCarsState extends State<ListOfCars> {
                                       icon: const Icon(Icons.favorite,
                                           color: Colors.red),
                                       tooltip: 'Auto zu Favoriten hinzufügen',
-                                      onPressed: () =>
-                                          Hive.box<Car>("cars").add(selectedCar);
+                                      onPressed: () {
+                                    setState(() {
+                                      Hive.box<Car>("cars").add(Car(
+                                        model: filteredCars.elementAt(index).model,
+                                        brand: filteredCars.elementAt(index).brand,
+                                        type: filteredCars.elementAt(index).type,
+                                        baseColor: filteredCars.elementAt(index).baseColor,
+                                        price: filteredCars.elementAt(index).price,
+                                      ));
+                                    });
+                                  },
                                     ),
                                   ],
                                 ),
