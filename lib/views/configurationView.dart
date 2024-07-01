@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:virtuelle_fahrzeugerkundung/appTheme.dart';
 import 'package:virtuelle_fahrzeugerkundung/services/carSelectionProvider.dart';
 import 'package:virtuelle_fahrzeugerkundung/views/customWideFAB.dart';
-import 'package:virtuelle_fahrzeugerkundung/widgets/fovoriteCars.dart';
+import 'package:virtuelle_fahrzeugerkundung/widgets/favoriteCars.dart';
 import 'package:virtuelle_fahrzeugerkundung/widgets/listOfCars.dart';
+
 import '../widgets/configuration.dart';
 import 'GradientBottomNavBar.dart';
 
@@ -82,7 +84,7 @@ class _ConfigurationViewState extends State<ConfigurationView>
           timeInSecForIosWeb: 2,
           backgroundColor: Colors.green,
           textColor: Colors.white,
-          fontSize: 16.0);
+          fontSize: 14.0);
     }
   }
 
@@ -91,13 +93,9 @@ class _ConfigurationViewState extends State<ConfigurationView>
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Virtuelle Fahrzeugerkundung',
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
+      theme: AppTheme.darkTheme,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.grey[850],
-          foregroundColor: Colors.white70,
           centerTitle: true,
           title: const Text('Virtuelle Fahrzeugerkundung'),
           bottom: _selectedBottomNavIndex == 1
@@ -180,10 +178,8 @@ class _ConfigurationViewState extends State<ConfigurationView>
   IconData _getFABIcon() {
     switch (_selectedTopNavIndex) {
       // Hier kann man die icons für die aktuelle ansicht anpassen, sofern nötig
-      case 0:
-        return Icons.directions_car;
       case 1:
-        return Icons.build;
+        return Icons.arrow_forward;
       case 2:
         return Icons.send;
       default:

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
@@ -62,7 +61,6 @@ class _ListOfCarsState extends State<ListOfCars> {
 
   @override
   void initState() {
-    // Initialize the filtered list with all products
     filteredCars = carList;
 
     openBox();
@@ -80,8 +78,6 @@ class _ListOfCarsState extends State<ListOfCars> {
     );
     Provider.of<CarSelectionProvider>(context, listen: false)
         .selectCar(selectedCar);
-    print(
-        'Car selected in ListOfCars: ${selectedCar.model} - ${selectedCar.brand}');
     widget.onCarSelected();
   }
 
@@ -91,11 +87,9 @@ class _ListOfCarsState extends State<ListOfCars> {
     }
   }
 
-  // Function to filter products by model
   void filterCarsByModel(String model) {
     setState(() {
       filterModel = model;
-      // Use the 'where' method to filter products by model
       filteredCars = carList
           .where((car) => car.model != null && car.model!.contains(filterModel))
           .toList();
@@ -105,7 +99,8 @@ class _ListOfCarsState extends State<ListOfCars> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.grey[850]),
+      decoration:
+          BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -113,13 +108,13 @@ class _ListOfCarsState extends State<ListOfCars> {
             padding: const EdgeInsets.all(16.0),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                color: Theme.of(context).inputDecorationTheme.fillColor,
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
               ),
               width: 400,
               child: TextField(
-                decoration: InputDecoration(
-                  labelText: 'Filter by Model',
+                decoration: const InputDecoration(
+                  labelText: 'Nach Modell filtern',
                   border: InputBorder.none,
                 ),
                 onChanged: filterCarsByModel,
@@ -128,12 +123,11 @@ class _ListOfCarsState extends State<ListOfCars> {
           ),
           Expanded(
             child: Container(
-              color: Colors.grey[850],
+              color: Theme.of(context).scaffoldBackgroundColor,
               child: ListView.builder(
                 itemCount: filteredCars.length + 1,
                 itemBuilder: (BuildContext context, int index) {
                   if (index == filteredCars.length) {
-                    // Return SizedBox for the last item
                     return const SizedBox(height: 60);
                   } else {
                     return Padding(
@@ -141,7 +135,7 @@ class _ListOfCarsState extends State<ListOfCars> {
                       child: GestureDetector(
                         onTap: () => _selectCar(filteredCars[index]),
                         child: Card(
-                          color: HexColor("3D3D3D"),
+                          color: Theme.of(context).cardColor,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -150,7 +144,6 @@ class _ListOfCarsState extends State<ListOfCars> {
                                 SizedBox(
                                   height: 100,
                                   width: 100,
-                                  // Set a fixed width for the images
                                   child: PageView.builder(
                                     itemCount: images.length,
                                     itemBuilder: (context, imageIndex) {
@@ -165,20 +158,25 @@ class _ListOfCarsState extends State<ListOfCars> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text("Model",
-                                          style: TextStyle(color: Colors.white),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                       Text("Marke",
-                                          style: TextStyle(color: Colors.white),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                       Text("Typ",
-                                          style: TextStyle(color: Colors.white),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                       Text("Grundfarbe",
-                                          style: TextStyle(color: Colors.white),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                       Text("Preis",
-                                          style: TextStyle(color: Colors.white),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                     ],
                                   ),
                                 ),
@@ -193,37 +191,38 @@ class _ListOfCarsState extends State<ListOfCars> {
                                               .elementAt(index)
                                               .model
                                               .toString(),
-                                          style: TextStyle(color: Colors.white),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                       Text(
                                           filteredCars
                                               .elementAt(index)
                                               .brand
                                               .toString(),
-                                          style: TextStyle(color: Colors.white),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                       Text(
                                           filteredCars
                                               .elementAt(index)
                                               .type
                                               .toString(),
-                                          style: TextStyle(color: Colors.white),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                       Text(
                                           filteredCars
                                               .elementAt(index)
                                               .baseColor
                                               .toString(),
-                                          style: TextStyle(color: Colors.white),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                       Text(
-                                          filteredCars
-                                                  .elementAt(index)
-                                                  .price
-                                                  .toString() +
-                                              " Euro",
-                                          style: TextStyle(color: Colors.white),
-                                          textAlign: TextAlign.left),
+                                          "${filteredCars.elementAt(index).price} €",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                     ],
                                   ),
                                 ),
@@ -232,20 +231,32 @@ class _ListOfCarsState extends State<ListOfCars> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     IconButton(
-                                      icon: const Icon(Icons.favorite,
-                                          color: Colors.red),
+                                      icon: Icon(
+                                        Icons.favorite,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
                                       tooltip: 'Auto zu Favoriten hinzufügen',
                                       onPressed: () {
-                                    setState(() {
-                                      Hive.box<Car>("cars").add(Car(
-                                        model: filteredCars.elementAt(index).model,
-                                        brand: filteredCars.elementAt(index).brand,
-                                        type: filteredCars.elementAt(index).type,
-                                        baseColor: filteredCars.elementAt(index).baseColor,
-                                        price: filteredCars.elementAt(index).price,
-                                      ));
-                                    });
-                                  },
+                                        setState(() {
+                                          Hive.box<Car>("cars").add(Car(
+                                            model: filteredCars
+                                                .elementAt(index)
+                                                .model,
+                                            brand: filteredCars
+                                                .elementAt(index)
+                                                .brand,
+                                            type: filteredCars
+                                                .elementAt(index)
+                                                .type,
+                                            baseColor: filteredCars
+                                                .elementAt(index)
+                                                .baseColor,
+                                            price: filteredCars
+                                                .elementAt(index)
+                                                .price,
+                                          ));
+                                        });
+                                      },
                                     ),
                                   ],
                                 ),

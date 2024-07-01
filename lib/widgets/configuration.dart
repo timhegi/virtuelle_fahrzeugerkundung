@@ -63,7 +63,7 @@ class _ConfigurationState extends State<Configuration> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[850],
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -84,7 +84,6 @@ class _ConfigurationState extends State<Configuration> {
                 selectedInteriorColor = color;
               });
             }),
-            buildFuelTypeSelector(),
             buildColorSelector(
                 "Außenfarbe", exteriorColors, selectedExteriorColor,
                 (ColorInfo color) {
@@ -99,6 +98,7 @@ class _ConfigurationState extends State<Configuration> {
                 selectedBrakeColor = color;
               });
             }),
+            buildFuelTypeSelector(),
             const SizedBox(height: 120),
           ],
         ),
@@ -113,7 +113,8 @@ class _ConfigurationState extends State<Configuration> {
               ),
             );
           },
-          child: const Icon(Icons.add),
+          child: Icon(Icons.view_in_ar,
+              color: Theme.of(context).colorScheme.onPrimary),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
@@ -124,7 +125,7 @@ class _ConfigurationState extends State<Configuration> {
       ColorInfo? selectedColor, Function(ColorInfo) onTap) {
     return Card(
       margin: const EdgeInsets.all(16),
-      color: Colors.grey[700],
+      color: Theme.of(context).cardColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -132,9 +133,7 @@ class _ConfigurationState extends State<Configuration> {
             padding: const EdgeInsets.all(16.0),
             child: Text(
               title,
-              style: const TextStyle(
-                color: Colors.white,
-              ),
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
           GridView.builder(
@@ -194,7 +193,7 @@ class _ConfigurationState extends State<Configuration> {
   Widget buildFuelTypeSelector() {
     return Card(
       margin: const EdgeInsets.all(16),
-      color: Colors.grey[700],
+      color: Theme.of(context).cardColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -231,7 +230,7 @@ class _ConfigurationState extends State<Configuration> {
                       borderRadius: BorderRadius.circular(8),
                       border: selectedFuelType == fuelTypes[index]
                           ? Border.all(
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.onSurface,
                               width: 2,
                             )
                           : null,
@@ -243,8 +242,8 @@ class _ConfigurationState extends State<Configuration> {
                           Flexible(
                             child: Text(
                               fuelTypes[index],
-                              style: const TextStyle(
-                                color: Colors.white,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface,
                                 overflow: TextOverflow.ellipsis,
                                 fontSize: 12,
                               ),

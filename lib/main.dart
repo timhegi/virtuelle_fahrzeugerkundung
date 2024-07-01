@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:virtuelle_fahrzeugerkundung/services/carSelectionProvider.dart';
 import 'package:virtuelle_fahrzeugerkundung/views/configurationView.dart';
 import 'package:virtuelle_fahrzeugerkundung/models/car_model.dart';
+import 'package:virtuelle_fahrzeugerkundung/appTheme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,10 +35,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Virtuelle Fahrzeugerkundung',
-      home: ConfigurationView(),
+      theme: AppTheme.darkTheme,
+      home: const ConfigurationView(),
     );
   }
 }
