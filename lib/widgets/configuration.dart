@@ -19,7 +19,7 @@ class _ConfigurationState extends State<Configuration> {
   ColorInfo? selectedInteriorColor;
   ColorInfo? selectedExteriorColor;
   ColorInfo? selectedBrakeColor;
-  String? selectedFuelType = 'Diesel';
+  String? selectedFuelType;
 
   final interiorColors = [
     ColorInfo(Colors.white, 'White'),
@@ -113,8 +113,10 @@ class _ConfigurationState extends State<Configuration> {
               ),
             );
           },
+          mini: true,
           child: Icon(Icons.view_in_ar,
-              color: Theme.of(context).colorScheme.onPrimary),
+              color:
+                  Theme.of(context).floatingActionButtonTheme.foregroundColor),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,

@@ -39,7 +39,7 @@ class _ListOfCarsState extends State<ListOfCars> {
     CarObject(
         model: "4er",
         brand: "BMW",
-        type: "Diesel",
+        type: "Benzin",
         baseColor: "Silber",
         price: 18000),
     CarObject(
@@ -49,11 +49,23 @@ class _ListOfCarsState extends State<ListOfCars> {
         baseColor: "Silber",
         price: 18000),
     CarObject(
-        model: "4er",
-        brand: "BMW",
-        type: "Diesel",
-        baseColor: "Silber",
-        price: 18000),
+        model: "Golf GTI",
+        brand: "Volkswagen",
+        type: "Hatchback",
+        baseColor: "Rot",
+        price: 35000),
+    CarObject(
+        model: "Model S",
+        brand: "Tesla",
+        type: "Electric",
+        baseColor: "Weiß",
+        price: 80000),
+    CarObject(
+        model: "Civic",
+        brand: "Honda",
+        type: "Sedan",
+        baseColor: "Blau",
+        price: 22000),
   ];
 
   String filterModel = '';
@@ -89,9 +101,13 @@ class _ListOfCarsState extends State<ListOfCars> {
 
   void filterCarsByModel(String model) {
     setState(() {
-      filterModel = model;
+      filterModel = model.toLowerCase();
       filteredCars = carList
-          .where((car) => car.model != null && car.model!.contains(filterModel))
+          .where((car) =>
+              (car.model != null &&
+                  car.model!.toLowerCase().contains(filterModel)) ||
+              (car.brand != null &&
+                  car.brand!.toLowerCase().contains(filterModel)))
           .toList();
     });
   }
@@ -113,10 +129,13 @@ class _ListOfCarsState extends State<ListOfCars> {
               ),
               width: 400,
               child: TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Nach Modell filtern',
-                  border: InputBorder.none,
-                ),
+                decoration: InputDecoration(
+                    labelText: 'Nach Modell filtern',
+                    border: Theme.of(context).inputDecorationTheme.border,
+                    fillColor: Theme.of(context).inputDecorationTheme.fillColor,
+                    contentPadding:
+                        Theme.of(context).inputDecorationTheme.contentPadding),
+                style: Theme.of(context).textTheme.labelLarge,
                 onChanged: filterCarsByModel,
               ),
             ),
@@ -233,7 +252,8 @@ class _ListOfCarsState extends State<ListOfCars> {
                                     IconButton(
                                       icon: Icon(
                                         Icons.favorite,
-                                        color: Theme.of(context).primaryColor,
+                                        color:
+                                            Theme.of(context).iconTheme.color,
                                       ),
                                       tooltip: 'Auto zu Favoriten hinzufügen',
                                       onPressed: () {
