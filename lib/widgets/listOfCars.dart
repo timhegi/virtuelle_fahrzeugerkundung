@@ -90,8 +90,6 @@ class _ListOfCarsState extends State<ListOfCars> {
     );
     Provider.of<CarSelectionProvider>(context, listen: false)
         .selectCar(selectedCar);
-    print(
-        'Car selected in ListOfCars: ${selectedCar.model} - ${selectedCar.brand}');
     widget.onCarSelected();
   }
 
@@ -101,7 +99,6 @@ class _ListOfCarsState extends State<ListOfCars> {
     }
   }
 
-  // Function to filter products by model
   void filterCarsByModel(String model) {
     setState(() {
       filterModel = model;
@@ -115,17 +112,17 @@ class _ListOfCarsState extends State<ListOfCars> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.grey[850]),
+      decoration:
+          BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Container(
-              padding: EdgeInsets.only(left: 8),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                color: Theme.of(context).inputDecorationTheme.fillColor,
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
               ),
               width: 400,
               child: TextField(
@@ -195,30 +192,25 @@ class _ListOfCarsState extends State<ListOfCars> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text("Model",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                       Text("Marke",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                       Text("Typ",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                       Text("Grundfarbe",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                       Text("Preis",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                     ],
                                   ),
                                 ),
@@ -233,47 +225,38 @@ class _ListOfCarsState extends State<ListOfCars> {
                                               .elementAt(index)
                                               .model
                                               .toString(),
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                       Text(
                                           filteredCars
                                               .elementAt(index)
                                               .brand
                                               .toString(),
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                       Text(
                                           filteredCars
                                               .elementAt(index)
                                               .type
                                               .toString(),
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                       Text(
                                           filteredCars
                                               .elementAt(index)
                                               .baseColor
                                               .toString(),
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                          textAlign: TextAlign.left),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                       Text(
-                                          filteredCars
-                                                  .elementAt(index)
-                                                  .price
-                                                  .toString() +
-                                              " Euro",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                          textAlign: TextAlign.left),
+                                          "${filteredCars.elementAt(index).price} €",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                     ],
                                   ),
                                 ),
@@ -282,8 +265,10 @@ class _ListOfCarsState extends State<ListOfCars> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     IconButton(
-                                      icon: const Icon(Icons.favorite,
-                                          color: Colors.red),
+                                      icon: Icon(
+                                        Icons.favorite,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
                                       tooltip: 'Auto zu Favoriten hinzufügen',
                                       onPressed: () {
                                         setState(() {
