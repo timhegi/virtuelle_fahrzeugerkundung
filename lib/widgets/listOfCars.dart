@@ -24,6 +24,16 @@ class _ListOfCarsState extends State<ListOfCars> {
     'lib/assets/images/image3.jpg',
   ];
 
+  final myController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    myController.dispose();
+    super.dispose();
+  }
+
   final List<CarObject> carList = [
     CarObject(
         model: "G-Klasse 2019",
@@ -112,14 +122,34 @@ class _ListOfCarsState extends State<ListOfCars> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Container(
+              padding: EdgeInsets.only(left: 8),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               width: 400,
               child: TextField(
+                controller: myController,
                 decoration: InputDecoration(
-                  labelText: 'Filter by Model',
+                  labelText: "Automodel",
+                  labelStyle: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                      color: Colors.black),
+                  suffixIcon: Align(
+                    widthFactor: 1.0,
+                    heightFactor: 1.0,
+                    child: IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        setState(() {
+                          filterModel = "";
+                          filterCarsByModel(filterModel);
+                          myController.text = "";
+                        });
+                      },
+                    ),
+                  ),
                   border: InputBorder.none,
                 ),
                 onChanged: filterCarsByModel,
@@ -148,8 +178,8 @@ class _ListOfCarsState extends State<ListOfCars> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 SizedBox(
-                                  height: 100,
-                                  width: 100,
+                                  height: 80,
+                                  width: MediaQuery.sizeOf(context).width * 0.2,
                                   // Set a fixed width for the images
                                   child: PageView.builder(
                                     itemCount: images.length,
@@ -165,19 +195,29 @@ class _ListOfCarsState extends State<ListOfCars> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text("Model",
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12),
                                           textAlign: TextAlign.left),
                                       Text("Marke",
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12),
                                           textAlign: TextAlign.left),
                                       Text("Typ",
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12),
                                           textAlign: TextAlign.left),
                                       Text("Grundfarbe",
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12),
                                           textAlign: TextAlign.left),
                                       Text("Preis",
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12),
                                           textAlign: TextAlign.left),
                                     ],
                                   ),
@@ -193,28 +233,36 @@ class _ListOfCarsState extends State<ListOfCars> {
                                               .elementAt(index)
                                               .model
                                               .toString(),
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12),
                                           textAlign: TextAlign.left),
                                       Text(
                                           filteredCars
                                               .elementAt(index)
                                               .brand
                                               .toString(),
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12),
                                           textAlign: TextAlign.left),
                                       Text(
                                           filteredCars
                                               .elementAt(index)
                                               .type
                                               .toString(),
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12),
                                           textAlign: TextAlign.left),
                                       Text(
                                           filteredCars
                                               .elementAt(index)
                                               .baseColor
                                               .toString(),
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12),
                                           textAlign: TextAlign.left),
                                       Text(
                                           filteredCars
@@ -222,7 +270,9 @@ class _ListOfCarsState extends State<ListOfCars> {
                                                   .price
                                                   .toString() +
                                               " Euro",
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12),
                                           textAlign: TextAlign.left),
                                     ],
                                   ),
@@ -236,16 +286,26 @@ class _ListOfCarsState extends State<ListOfCars> {
                                           color: Colors.red),
                                       tooltip: 'Auto zu Favoriten hinzufügen',
                                       onPressed: () {
-                                    setState(() {
-                                      Hive.box<Car>("cars").add(Car(
-                                        model: filteredCars.elementAt(index).model,
-                                        brand: filteredCars.elementAt(index).brand,
-                                        type: filteredCars.elementAt(index).type,
-                                        baseColor: filteredCars.elementAt(index).baseColor,
-                                        price: filteredCars.elementAt(index).price,
-                                      ));
-                                    });
-                                  },
+                                        setState(() {
+                                          Hive.box<Car>("cars").add(Car(
+                                            model: filteredCars
+                                                .elementAt(index)
+                                                .model,
+                                            brand: filteredCars
+                                                .elementAt(index)
+                                                .brand,
+                                            type: filteredCars
+                                                .elementAt(index)
+                                                .type,
+                                            baseColor: filteredCars
+                                                .elementAt(index)
+                                                .baseColor,
+                                            price: filteredCars
+                                                .elementAt(index)
+                                                .price,
+                                          ));
+                                        });
+                                      },
                                     ),
                                   ],
                                 ),
