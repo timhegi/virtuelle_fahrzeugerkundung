@@ -4,7 +4,7 @@ class AppTheme {
   static final ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
-    primaryColor: Colors.green,
+    primaryColor: const Color(0xFF313131),
     scaffoldBackgroundColor: const Color(0xFF313131),
     appBarTheme: const AppBarTheme(
       backgroundColor: Color(0xFF313131),
@@ -15,16 +15,14 @@ class AppTheme {
     ),
     cardColor: const Color(0xFF3D3D3D),
     textTheme: const TextTheme(
+      labelLarge: TextStyle(color: Colors.black, fontSize: 18.0),
       bodyLarge: TextStyle(color: Colors.white),
       bodyMedium: TextStyle(color: Colors.white),
     ),
-    //Hier wird der style des Suchfelds überschrieben bitte um Änderung oder Löschung
-    /*inputDecorationTheme: const InputDecorationTheme(
-      fillColor: Colors.white,
-      alignLabelWithHint: true,
-      counterStyle: TextStyle(color: Colors.red),
-      filled: false,
-    ),*/
+    inputDecorationTheme: const InputDecorationTheme(
+        fillColor: Colors.white,
+        border: InputBorder.none,
+        contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0)),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,

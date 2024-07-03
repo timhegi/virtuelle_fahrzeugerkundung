@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +49,7 @@ class _ListOfCarsState extends State<ListOfCars> {
     CarObject(
         model: "4er",
         brand: "BMW",
-        type: "Diesel",
+        type: "Benzin",
         baseColor: "Silber",
         price: 18000),
     CarObject(
@@ -60,11 +59,23 @@ class _ListOfCarsState extends State<ListOfCars> {
         baseColor: "Silber",
         price: 18000),
     CarObject(
-        model: "4er",
-        brand: "BMW",
-        type: "Diesel",
-        baseColor: "Silber",
-        price: 18000),
+        model: "Golf GTI",
+        brand: "Volkswagen",
+        type: "Hatchback",
+        baseColor: "Rot",
+        price: 35000),
+    CarObject(
+        model: "Model S",
+        brand: "Tesla",
+        type: "Electric",
+        baseColor: "Weiß",
+        price: 80000),
+    CarObject(
+        model: "Civic",
+        brand: "Honda",
+        type: "Sedan",
+        baseColor: "Blau",
+        price: 22000),
   ];
 
   String filterModel = '';
@@ -72,7 +83,6 @@ class _ListOfCarsState extends State<ListOfCars> {
 
   @override
   void initState() {
-    // Initialize the filtered list with all products
     filteredCars = carList;
 
     openBox();
@@ -101,10 +111,13 @@ class _ListOfCarsState extends State<ListOfCars> {
 
   void filterCarsByModel(String model) {
     setState(() {
-      filterModel = model;
-      // Use the 'where' method to filter products by model
+      filterModel = model.toLowerCase();
       filteredCars = carList
-          .where((car) => car.model != null && car.model!.contains(filterModel))
+          .where((car) =>
+              (car.model != null &&
+                  car.model!.toLowerCase().contains(filterModel)) ||
+              (car.brand != null &&
+                  car.brand!.toLowerCase().contains(filterModel)))
           .toList();
     });
   }
@@ -118,66 +131,37 @@ class _ListOfCarsState extends State<ListOfCars> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).inputDecorationTheme.fillColor,
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
               ),
               width: 400,
-              child: SizedBox(
-                width: 250,
-                child: TextField(
-                  controller: myController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    labelText: "Test123",
-                    suffixIcon: Align(
-                      widthFactor: 1.0,
-                      heightFactor: 1.0,
-                      child: IconButton(
-                        icon: Icon(Icons.close),
-                        onPressed: () {
-                          setState(() {
-                            filterModel = "";
-                            filterCarsByModel(filterModel);
-                            myController.text = "";
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                  onChanged: filterCarsByModel,
-                ),
-              ),
-              /*TextField(
-                controller: myController,
-                cursorColor: Colors.black,
+              child: TextField(
                 decoration: InputDecoration(
-                  labelText: "Automodel",
-                  labelStyle: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                      color: Colors.black),
-                  suffixIcon: Align(
-                    widthFactor: 1.0,
-                    heightFactor: 1.0,
-                    child: IconButton(
-                      icon: Icon(Icons.close),
-                      onPressed: () {
-                        setState(() {
-                          filterModel = "";
-                          filterCarsByModel(filterModel);
-                          myController.text = "";
-                        });
-                      },
-                    ),
+                    labelText: 'Nach Modell filtern',
+                    border: Theme.of(context).inputDecorationTheme.border,
+                    fillColor: Theme.of(context).inputDecorationTheme.fillColor,
+                    contentPadding:
+                        Theme.of(context).inputDecorationTheme.contentPadding),
+                style: Theme.of(context).textTheme.labelLarge,
+                suffixIcon: Align(
+                  widthFactor: 1.0,
+                  heightFactor: 1.0,
+                  child: IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      setState(() {
+                        filterModel = "";
+                        filterCarsByModel(filterModel);
+                        myController.text = "";
+                      });
+                    },
                   ),
-                  border: InputBorder.none,
                 ),
                 onChanged: filterCarsByModel,
-              ),*/
+              ),
             ),
           ),
           if (myController.text.isNotEmpty)
@@ -195,12 +179,11 @@ class _ListOfCarsState extends State<ListOfCars> {
             ),
           Expanded(
             child: Container(
-              color: Colors.grey[850],
+              color: Theme.of(context).scaffoldBackgroundColor,
               child: ListView.builder(
                 itemCount: filteredCars.length + 1,
                 itemBuilder: (BuildContext context, int index) {
                   if (index == filteredCars.length) {
-                    // Return SizedBox for the last item
                     return const SizedBox(height: 60);
                   } else {
                     return Padding(
@@ -208,16 +191,15 @@ class _ListOfCarsState extends State<ListOfCars> {
                       child: GestureDetector(
                         onTap: () => _selectCar(filteredCars[index]),
                         child: Card(
-                          color: HexColor("3D3D3D"),
+                          color: Theme.of(context).cardColor,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 SizedBox(
-                                  height: 80,
-                                  width: MediaQuery.sizeOf(context).width * 0.2,
-                                  // Set a fixed width for the images
+                                  height: 100,
+                                  width: 100,
                                   child: PageView.builder(
                                     itemCount: images.length,
                                     itemBuilder: (context, imageIndex) {
@@ -267,7 +249,7 @@ class _ListOfCarsState extends State<ListOfCars> {
                                               .toString(),
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodySmall),
+                                              .bodyMedium),
                                       Text(
                                           filteredCars
                                               .elementAt(index)
@@ -275,7 +257,7 @@ class _ListOfCarsState extends State<ListOfCars> {
                                               .toString(),
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodySmall),
+                                              .bodyMedium),
                                       Text(
                                           filteredCars
                                               .elementAt(index)
@@ -283,7 +265,7 @@ class _ListOfCarsState extends State<ListOfCars> {
                                               .toString(),
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodySmall),
+                                              .bodyMedium),
                                       Text(
                                           filteredCars
                                               .elementAt(index)
@@ -291,12 +273,12 @@ class _ListOfCarsState extends State<ListOfCars> {
                                               .toString(),
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodySmall),
+                                              .bodyMedium),
                                       Text(
                                           "${filteredCars.elementAt(index).price} €",
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodySmall),
+                                              .bodyMedium),
                                     ],
                                   ),
                                 ),
@@ -307,7 +289,8 @@ class _ListOfCarsState extends State<ListOfCars> {
                                     IconButton(
                                       icon: Icon(
                                         Icons.favorite,
-                                        color: Theme.of(context).primaryColor,
+                                        color:
+                                            Theme.of(context).iconTheme.color,
                                       ),
                                       tooltip: 'Auto zu Favoriten hinzufügen',
                                       onPressed: () {

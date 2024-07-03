@@ -45,11 +45,14 @@ class _FavoriteCarsState extends State<FavoriteCars> {
               borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),
             width: 400,
-            child: const TextField(
+            child: TextField(
               decoration: InputDecoration(
-                labelText: 'Nach Modell filtern',
-                border: InputBorder.none,
-              ),
+                  labelText: 'Nach Modell filtern',
+                  border: InputBorder.none,
+                  fillColor: Theme.of(context).inputDecorationTheme.fillColor,
+                  contentPadding:
+                      Theme.of(context).inputDecorationTheme.contentPadding),
+              style: Theme.of(context).textTheme.labelLarge,
             ),
           ),
         ),
