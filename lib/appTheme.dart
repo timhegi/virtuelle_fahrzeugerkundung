@@ -18,12 +18,13 @@ class AppTheme {
       bodyLarge: TextStyle(color: Colors.white),
       bodyMedium: TextStyle(color: Colors.white),
     ),
-    inputDecorationTheme: const InputDecorationTheme(
+    //Hier wird der style des Suchfelds überschrieben bitte um Änderung oder Löschung
+    /*inputDecorationTheme: const InputDecorationTheme(
       fillColor: Colors.white,
       alignLabelWithHint: true,
       counterStyle: TextStyle(color: Colors.red),
       filled: false,
-    ),
+    ),*/
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
