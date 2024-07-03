@@ -140,26 +140,27 @@ class _ListOfCarsState extends State<ListOfCars> {
               width: 400,
               child: TextField(
                 decoration: InputDecoration(
-                    labelText: 'Nach Modell filtern',
-                    border: Theme.of(context).inputDecorationTheme.border,
-                    fillColor: Theme.of(context).inputDecorationTheme.fillColor,
-                    contentPadding:
-                        Theme.of(context).inputDecorationTheme.contentPadding),
-                style: Theme.of(context).textTheme.labelLarge,
-                suffixIcon: Align(
-                  widthFactor: 1.0,
-                  heightFactor: 1.0,
-                  child: IconButton(
-                    icon: Icon(Icons.close),
-                    onPressed: () {
-                      setState(() {
-                        filterModel = "";
-                        filterCarsByModel(filterModel);
-                        myController.text = "";
-                      });
-                    },
+                  labelText: 'Nach Modell filtern',
+                  border: Theme.of(context).inputDecorationTheme.border,
+                  fillColor: Theme.of(context).inputDecorationTheme.fillColor,
+                  contentPadding:
+                      Theme.of(context).inputDecorationTheme.contentPadding,
+                  suffixIcon: Align(
+                    widthFactor: 1.0,
+                    heightFactor: 1.0,
+                    child: IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        setState(() {
+                          filterModel = "";
+                          filterCarsByModel(filterModel);
+                          myController.text = "";
+                        });
+                      },
+                    ),
                   ),
                 ),
+                style: Theme.of(context).textTheme.labelLarge,
                 onChanged: filterCarsByModel,
               ),
             ),
@@ -199,7 +200,7 @@ class _ListOfCarsState extends State<ListOfCars> {
                               children: [
                                 SizedBox(
                                   height: 100,
-                                  width: 100,
+                                  width: MediaQuery.sizeOf(context).width *0.2,
                                   child: PageView.builder(
                                     itemCount: images.length,
                                     itemBuilder: (context, imageIndex) {
@@ -249,7 +250,7 @@ class _ListOfCarsState extends State<ListOfCars> {
                                               .toString(),
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyMedium),
+                                              .bodySmall),
                                       Text(
                                           filteredCars
                                               .elementAt(index)
@@ -257,7 +258,7 @@ class _ListOfCarsState extends State<ListOfCars> {
                                               .toString(),
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyMedium),
+                                              .bodySmall),
                                       Text(
                                           filteredCars
                                               .elementAt(index)
@@ -265,7 +266,7 @@ class _ListOfCarsState extends State<ListOfCars> {
                                               .toString(),
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyMedium),
+                                              .bodySmall),
                                       Text(
                                           filteredCars
                                               .elementAt(index)
@@ -273,12 +274,12 @@ class _ListOfCarsState extends State<ListOfCars> {
                                               .toString(),
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyMedium),
+                                              .bodySmall),
                                       Text(
                                           "${filteredCars.elementAt(index).price} €",
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyMedium),
+                                              .bodySmall),
                                     ],
                                   ),
                                 ),
