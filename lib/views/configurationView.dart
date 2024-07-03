@@ -6,6 +6,7 @@ import 'package:virtuelle_fahrzeugerkundung/services/carSelectionProvider.dart';
 import 'package:virtuelle_fahrzeugerkundung/views/customWideFAB.dart';
 import 'package:virtuelle_fahrzeugerkundung/widgets/favoriteCars.dart';
 import 'package:virtuelle_fahrzeugerkundung/widgets/listOfCars.dart';
+import 'package:virtuelle_fahrzeugerkundung/widgets/summary.dart';
 
 import '../widgets/configuration.dart';
 import 'GradientBottomNavBar.dart';
@@ -136,7 +137,7 @@ class _ConfigurationViewState extends State<ConfigurationView>
                         ListOfCars(onCarSelected: _onCarSelected),
                         const Configuration(),
                         const Center(
-                          child: Text('Configuration Tab 3'),
+                          child: Summary(),
                         ),
                       ],
                     ),
