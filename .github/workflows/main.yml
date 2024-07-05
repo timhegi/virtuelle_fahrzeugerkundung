@@ -1,8 +1,9 @@
-name: Flutter build apk
+name: Flutter build and release APK
 on:
   push:
     branches: [ master ]
   workflow_dispatch:
+
 jobs:
   build_apk:
     runs-on: ubuntu-latest
@@ -28,8 +29,17 @@ jobs:
       - name: APK erstellen
         run: flutter build apk --release
       
-      - name: APK-Artefakt hochladen
-        uses: actions/upload-artifact@v4.3.3
+      - name: Generate release tag
+        id: tag
+        run: |
+          echo "::set-output name=release_tag::$(date +"%Y.%m.%d_%H-%M")"
+
+      - name: Release APK
+        uses: softprops/action-gh-release@v2.0.6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          tag_name: ${{ steps.tag.outputs.release_tag }}
+          name: Release ${{ steps.tag.outputs.release_tag }}
+          files: build/app/outputs/flutter-apk/app-release.apk
+          generate_release_notes: true
