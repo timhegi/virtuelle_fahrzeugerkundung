@@ -49,7 +49,8 @@ class _SummaryState extends State<Summary> {
                         color: Colors.white,
                       ),
                       child: TextFormField(
-
+                        cursorColor: Colors.black,
+                          style: TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
@@ -76,6 +77,9 @@ class _SummaryState extends State<Summary> {
                           }
                           return null;
                         },
+                        cursorColor: Colors.black,
+                        style: TextStyle(color: Colors.black),
+
                       ),
                     ),
                   ),
@@ -102,6 +106,8 @@ class _SummaryState extends State<Summary> {
                           }
                           return null;
                         },
+                        cursorColor: Colors.black,
+                        style: TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
@@ -127,6 +133,8 @@ class _SummaryState extends State<Summary> {
                           }
                           return null;
                         },
+                        cursorColor: Colors.black,
+                        style: TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
@@ -152,6 +160,8 @@ class _SummaryState extends State<Summary> {
                           }
                           return null;
                         },
+                        cursorColor: Colors.black,
+                        style: TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
@@ -170,7 +180,10 @@ class _SummaryState extends State<Summary> {
                         borderRadius: BorderRadius.circular(12),
                         color: Colors.white,
                       ),
-                      child: TextFormField(),
+                      child: TextFormField(
+                        cursorColor: Colors.black,
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
                   ),
                   Padding(
@@ -194,6 +207,8 @@ class _SummaryState extends State<Summary> {
                           }
                           return null;
                         },
+                        cursorColor: Colors.black,
+                        style: TextStyle(color: Colors.black),
                       ),
                     ),
                   ),

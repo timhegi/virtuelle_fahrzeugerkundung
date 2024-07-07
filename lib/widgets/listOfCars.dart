@@ -139,26 +139,27 @@ class _ListOfCarsState extends State<ListOfCars> {
               ),
               width: 400,
               child: TextField(
+                controller: myController,
                 decoration: InputDecoration(
                   labelText: 'Nach Modell filtern',
                   border: Theme.of(context).inputDecorationTheme.border,
                   fillColor: Theme.of(context).inputDecorationTheme.fillColor,
                   contentPadding:
                       Theme.of(context).inputDecorationTheme.contentPadding,
-                  suffixIcon: Align(
+                  suffixIcon: (myController.text != "") ? Align(
                     widthFactor: 1.0,
                     heightFactor: 1.0,
                     child: IconButton(
                       icon: Icon(Icons.close),
                       onPressed: () {
+                        myController.clear();
                         setState(() {
                           filterModel = "";
                           filterCarsByModel(filterModel);
-                          myController.text = "";
                         });
                       },
                     ),
-                  ),
+                  ): null,
                 ),
                 style: Theme.of(context).textTheme.labelLarge,
                 onChanged: filterCarsByModel,
@@ -200,7 +201,7 @@ class _ListOfCarsState extends State<ListOfCars> {
                               children: [
                                 SizedBox(
                                   height: 100,
-                                  width: MediaQuery.sizeOf(context).width *0.2,
+                                  width: MediaQuery.sizeOf(context).width * 0.2,
                                   child: PageView.builder(
                                     itemCount: images.length,
                                     itemBuilder: (context, imageIndex) {
