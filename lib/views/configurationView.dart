@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:virtuelle_fahrzeugerkundung/appTheme.dart';
+import 'package:virtuelle_fahrzeugerkundung/models/car_model.dart';
 import 'package:virtuelle_fahrzeugerkundung/services/carSelectionProvider.dart';
 import 'package:virtuelle_fahrzeugerkundung/views/customWideFAB.dart';
 import 'package:virtuelle_fahrzeugerkundung/widgets/favoriteCars.dart';
@@ -41,6 +43,7 @@ class _ConfigurationViewState extends State<ConfigurationView>
   @override
   void initState() {
     super.initState();
+    if(Hive.box<Car>("cars").isEmpty) _selectedBottomNavIndex = 1;
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_handleTabSelection);
   }
@@ -67,7 +70,8 @@ class _ConfigurationViewState extends State<ConfigurationView>
 
   void _onBottomNavigationItemTapped(int index) {
     setState(() {
-      _selectedBottomNavIndex = index;
+      if(Hive.box<Car>("cars").isEmpty) _selectedBottomNavIndex = 1;
+      else _selectedBottomNavIndex = index;
     });
   }
 

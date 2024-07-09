@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Virtuelle Fahrzeugerkundung',
       theme: AppTheme.darkTheme,
-      home: const ConfigurationView(),
+      home: ConfigurationView(),
     );
   }
 }

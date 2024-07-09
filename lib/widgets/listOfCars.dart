@@ -292,7 +292,7 @@ class _ListOfCarsState extends State<ListOfCars> {
                                       icon: Icon(
                                         Icons.favorite,
                                         color:
-                                            Theme.of(context).iconTheme.color,
+                                            Colors.red,//Theme.of(context).iconTheme.color,
                                       ),
                                       tooltip: 'Auto zu Favoriten hinzufügen',
                                       onPressed: () {

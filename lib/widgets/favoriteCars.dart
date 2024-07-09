@@ -96,6 +96,9 @@ class _FavoriteCarsState extends State<FavoriteCars> {
                                 ),
                                 IconButton( icon: Icon(Icons.delete), onPressed: () {
                                   Hive.box<Car>("cars").deleteAt(index);
+                                  setState(() {
+
+                                  });
                                 },)
                               ],
                             ),

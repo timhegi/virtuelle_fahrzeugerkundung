@@ -31,9 +31,9 @@ class GradientBottomNavBar extends StatelessWidget {
         selectedItemColor: Colors.white,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined, size: 28),
-            activeIcon: Icon(Icons.home, size: 30),
-            label: 'Home',
+            icon: Icon(Icons.favorite, size: 28),
+            activeIcon: Icon(Icons.favorite, size: 30),
+            label: "Favoriten",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.tune_outlined, size: 28),
