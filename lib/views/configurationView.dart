@@ -98,7 +98,7 @@ class _ConfigurationViewState extends State<ConfigurationView>
       home: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text('Virtuelle Fahrzeugerkundung'),
+          title: (_selectedBottomNavIndex == 0) ? Text("Meine Autos") : Text("Bestellung"),
           bottom: _selectedBottomNavIndex == 1
               ? TabBar(
                   controller: _tabController,
