@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
+import 'package:provider/provider.dart';
+import 'package:virtuelle_fahrzeugerkundung/models/car.dart';
 import '../models/car_model.dart';
+import '../services/carSelectionProvider.dart';
 
 class FavoriteCars extends StatefulWidget {
   const FavoriteCars({super.key});
@@ -12,6 +14,25 @@ class FavoriteCars extends StatefulWidget {
 
 class _FavoriteCarsState extends State<FavoriteCars> {
   Box<Car>? carBox;
+
+  final images = [
+    'lib/assets/images/image1.jpg',
+    'lib/assets/images/image2.jpg',
+    'lib/assets/images/image3.jpg',
+  ];
+
+  /*void _selectCar(CarObject car) {
+    Car selectedCar = Car(
+      model: car.model,
+      brand: car.brand,
+      type: car.type,
+      baseColor: car.baseColor,
+      price: car.price,
+    );
+    Provider.of<CarSelectionProvider>(context, listen: false)
+        .selectCar(selectedCar);
+    widget.onCarSelected();
+  }*/
 
   @override
   void initState() {
@@ -37,25 +58,6 @@ class _FavoriteCarsState extends State<FavoriteCars> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).inputDecorationTheme.fillColor,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-            ),
-            width: 400,
-            child: TextField(
-              decoration: InputDecoration(
-                  labelText: 'Nach Modell filtern',
-                  border: InputBorder.none,
-                  fillColor: Theme.of(context).inputDecorationTheme.fillColor,
-                  contentPadding:
-                      Theme.of(context).inputDecorationTheme.contentPadding),
-              style: Theme.of(context).textTheme.labelLarge,
-            ),
-          ),
-        ),
         Expanded(
           child: ValueListenableBuilder(
             valueListenable: carBox!.listenable(),
@@ -71,68 +73,47 @@ class _FavoriteCarsState extends State<FavoriteCars> {
                   if (car == null) {
                     return const SizedBox.shrink();
                   }
-                  return Card(
-                    margin: const EdgeInsets.all(16),
-                    color: Theme.of(context).cardTheme.color,
-                    child: Padding(
-                      padding: const EdgeInsets.all(32.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                  return GestureDetector(
+                    //onTap: () => _selectCar(filteredCars[index]),  // Hier müsste noch mal
+                    child: Card(
+                      margin: const EdgeInsets.all(16),
+                      color: Theme.of(context).cardTheme.color,
+                      child: Padding(
+                        padding: const EdgeInsets.all(32.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Model",
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium),
-                                Text("Marke",
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium),
-                                Text("Typ",
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium),
-                                Text("Grundfarbe",
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium),
-                                Text("Preis",
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium),
+                                Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Auto " + index.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+                                    Text(car.model.toString()),
+                                    Text("Standard")
+                                  ],
+                                ),
+                                IconButton( icon: Icon(Icons.delete), onPressed: () {
+                                  Hive.box<Car>("cars").deleteAt(index);
+                                },)
                               ],
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(car.model ?? '',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium),
-                                Text(car.brand ?? '',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium),
-                                Text(car.type ?? '',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium),
-                                Text(car.baseColor ?? '',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium),
-                                Text("${car.price} Euro",
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16.0),
+                              child: SizedBox(
+                                height: 200,
+                                width: 200,
+                                child: PageView.builder(
+                                  itemCount: images.length,
+                                  itemBuilder: (context, imageIndex) {
+                                    return Image.asset(images[imageIndex]);
+                                  },
+                                ),
+                              ),
                             ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              box.deleteAt(index);
-                            },
-                            icon: Icon(Icons.delete,
-                                color: Theme.of(context).iconTheme.color),
-                          ),
-                        ],
+                          ],
+                        )
                       ),
                     ),
                   );

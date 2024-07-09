@@ -10,6 +10,28 @@ class Summary extends StatefulWidget {
 class _SummaryState extends State<Summary> {
   final _formKey = GlobalKey<FormState>();
 
+  String? selectedValueAnrede;
+  final List<String> itemsAnrede = ["Herr", "Frau"];
+  String? selectedValueTitel;
+  final List<String> itemsTitel = ["Doktor", "Professor"];
+
+  String? validateEmail(String? value) {
+    const pattern = r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
+        r'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-'
+        r'\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*'
+        r'[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4]'
+        r'[0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9]'
+        r'[0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\'
+        r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])';
+    final regex = RegExp(pattern);
+
+    return value!.isEmpty || !regex.hasMatch(value)
+        ? 'Enter a valid email address'
+        : null;
+  }
+
+  Color emailBorderColor = Colors.grey.shade300;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -35,22 +57,100 @@ class _SummaryState extends State<Summary> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "Beschreibung",
+                      "Hier sollte das Autoobjekt mit Informationen stehen @Adam machen wir das mit dem Provider ???",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Anrede",
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      height: 200,
                       width: MediaQuery.sizeOf(context).width * 0.9,
+                      padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
                         color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      child: TextFormField(
-                        cursorColor: Colors.black,
+                      child: DropdownButton<String>(
+                        dropdownColor: Colors.white,
+                        hint: Text(
+                          "Wählen Sie eine Anrede",
                           style: TextStyle(color: Colors.black),
+                        ),
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.black,
+                        ),
+                        value: selectedValueAnrede,
+                        style: TextStyle(color: Colors.black),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedValueAnrede = newValue;
+                          });
+                        },
+                        items: itemsAnrede
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        underline: SizedBox.shrink(),
+                        // Entfernt den Unterstrich
+                        isExpanded:
+                            true, // Optional, um sicherzustellen, dass das Dropdown-Menü den gesamten Container füllt
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Titel",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width: MediaQuery.sizeOf(context).width * 0.9,
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: DropdownButton<String>(
+                        dropdownColor: Colors.white,
+                        hint: Text(
+                          "Wählen Sie eine Titel",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.black,
+                        ),
+                        value: selectedValueTitel,
+                        style: TextStyle(color: Colors.black),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedValueTitel = newValue;
+                          });
+                        },
+                        items: itemsTitel
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        underline: SizedBox.shrink(),
+                        // Entfernt den Unterstrich
+                        isExpanded: true,
                       ),
                     ),
                   ),
@@ -79,7 +179,6 @@ class _SummaryState extends State<Summary> {
                         },
                         cursorColor: Colors.black,
                         style: TextStyle(color: Colors.black),
-
                       ),
                     ),
                   ),
@@ -127,11 +226,16 @@ class _SummaryState extends State<Summary> {
                         color: Colors.white,
                       ),
                       child: TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Bitte einen E-mail eingeben";
-                          }
-                          return null;
+                        validator: validateEmail,
+                        keyboardType: TextInputType.emailAddress,
+                        onChanged: (value) {
+                          setState(() {
+                            if (validateEmail(value) == null) {
+                              emailBorderColor = Color(0xFFE91e63);
+                            } else {
+                              emailBorderColor = Colors.grey.shade300;
+                            }
+                          });
                         },
                         cursorColor: Colors.black,
                         style: TextStyle(color: Colors.black),
@@ -154,6 +258,8 @@ class _SummaryState extends State<Summary> {
                         color: Colors.white,
                       ),
                       child: TextFormField(
+                        keyboardType: TextInputType.phone,
+                        maxLength: 20,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Bitte eine Telefonnummer eingeben";
@@ -188,9 +294,10 @@ class _SummaryState extends State<Summary> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("Anschrift*", style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium,),
+                    child: Text(
+                      "Anschrift*",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
