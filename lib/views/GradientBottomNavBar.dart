@@ -21,7 +21,7 @@ class GradientBottomNavBar extends StatelessWidget {
             Colors.black,
             Colors.black.withOpacity(0.7),
           ],
-          stops: const [0.0, 1.0],
+          stops: const [0.3, 1.0],
         ),
       ),
       child: BottomNavigationBar(

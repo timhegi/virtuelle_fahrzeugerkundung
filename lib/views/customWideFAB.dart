@@ -19,7 +19,7 @@ class CustomWideFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 48.0),
+      padding: const EdgeInsets.symmetric(horizontal: 1.0, vertical: 48.0),
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: 56.0,
@@ -39,7 +39,7 @@ class CustomWideFAB extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Text(
-                  mainText,
+                  mainText ?? '',
                   style: const TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
@@ -66,7 +66,7 @@ class CustomWideFAB extends StatelessWidget {
                         maxLines: 1,
                       ),
                       Text(
-                        subText,
+                        subText ?? '',
                         style: const TextStyle(
                           fontSize: 10.0,
                           color: Colors.grey,

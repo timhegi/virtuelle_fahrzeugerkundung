@@ -10,6 +10,10 @@
 .svn/
 migrate_working_dir/
 
+# 3D Modelle
+*.gltf
+*.glb
+
 # IntelliJ related
 *.iml
 *.ipr

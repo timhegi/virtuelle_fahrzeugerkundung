@@ -10,6 +10,31 @@ class AppTheme {
       backgroundColor: Color(0xFF313131),
       foregroundColor: Colors.white70,
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        padding: WidgetStateProperty.all(
+          const EdgeInsets.symmetric(
+            vertical: 10.0,
+            horizontal: 20.0,
+          ),
+        ),
+        fixedSize: WidgetStateProperty.all(
+          const Size(200.0, 50.0)),
+        textStyle: WidgetStateProperty.all(
+          const TextStyle(
+            color: Colors.black,
+            fontSize: 18.0,
+          ),
+        ),
+        backgroundColor: WidgetStateProperty.all(const Color(0xFF3D3D3D)),
+        foregroundColor: WidgetStateProperty.all(Colors.white),
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
+      ),
+    ),
     cardTheme: const CardTheme(
       color: Color(0xFF3D3D3D),
     ),
@@ -24,8 +49,8 @@ class AppTheme {
         border: InputBorder.none,
         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0)),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
+      backgroundColor: Color(0xFF3D3D3D),
+      foregroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),

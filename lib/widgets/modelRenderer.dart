@@ -10,16 +10,15 @@ class ModelRenderer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(title: const Text('3D Model')),
-        body: const ModelViewer(
-          backgroundColor: Color.fromARGB(0xFF, 0xEE, 0xEE, 0xEE),
-          src: 'lib/assets/3dmodels/volvoS90.glb',
-          alt: 'Ein 3D Modell eines Autos',
-          ar: false,
-          autoRotate: false,
-          disableZoom: false,
-        ),
-      );
+    return Scaffold(
+      appBar: AppBar(title: const Text('3D Model')),
+      body: const ModelViewer(
+        src: '../3dmodels/gtrrsas.glb',
+        alt: 'Ein 3D Modell eines Autos',
+        ar: false,
+        autoRotate: true,
+        disableZoom: false,
+      ),
+    );
   }
 }

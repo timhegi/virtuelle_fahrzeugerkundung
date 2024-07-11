@@ -1,14 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/car.dart';
+import '../models/car_model.dart';
+import '../services/carImageLoader.dart';
+import '../services/carSelectionProvider.dart';
 
 class Summary extends StatefulWidget {
-  const Summary({super.key});
+  final Function(bool) onSubmit;
+
+  const Summary({super.key, required this.onSubmit});
 
   @override
-  State<Summary> createState() => _SummaryState();
+  State<Summary> createState() => SummaryState();
 }
 
-class _SummaryState extends State<Summary> {
+class SummaryState extends State<Summary> {
   final _formKey = GlobalKey<FormState>();
+
+  bool validateAndSubmit() {
+    if (_formKey.currentState!.validate()) {
+      widget.onSubmit(true);
+      return true;
+    }
+    widget.onSubmit(false);
+    return false;
+  }
 
   String? selectedValueAnrede;
   final List<String> itemsAnrede = ["Herr", "Frau"];
@@ -32,8 +49,84 @@ class _SummaryState extends State<Summary> {
 
   Color emailBorderColor = Colors.grey.shade300;
 
+  CarObject convertCarToCarObject(Car car) {
+    return CarObject(
+      model: car.model,
+      brand: car.brand,
+      type: car.type,
+      baseColor: car.baseColor,
+      price: car.price,
+      images: car.images,
+      exteriorColors: car.exteriorColors,
+      interiorColors: car.interiorColors,
+      brakeColors: car.brakeColors,
+      fuelTypes: car.fuelTypes,
+    );
+  }
+
+  Widget buildCarImage(Car car) {
+    return FutureBuilder<List<String>>(
+      future: CarImageLoader.getCarExteriorImages(convertCarToCarObject(car),
+          car.selectedExteriorColor ?? car.baseColor ?? 'Weiß'),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return const Center(child: Text('Fehler beim Laden der Bilder'));
+        } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          return PageView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, imageIndex) {
+              return Image.asset(
+                snapshot.data![imageIndex],
+                fit: BoxFit.cover,
+              );
+            },
+          );
+        } else {
+          return const Center(child: Text('Keine Bilder gefunden'));
+        }
+      },
+    );
+  }
+
+  Widget buildCarCard(Car car) {
+    return Card(
+      margin: const EdgeInsets.all(8),
+      color: Theme.of(context).cardTheme.color,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "${car.brand} ${car.model}",
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            Text("Typ: ${car.type}"),
+            Text("Außenfarbe: ${car.selectedExteriorColor ?? car.baseColor}"),
+            Text(
+                "Innenfarbe: ${car.selectedInteriorColor ?? car.interiorColors.first.name}"),
+            Text(
+                "Bremsensattelfarbe: ${car.selectedBrakeColor ?? car.brakeColors.first.name}"),
+            Text(
+                "Kraftstoffart: ${car.selectedFuelType ?? car.fuelTypes.first}"),
+            Text("Preis: ${car.price} €"),
+            SizedBox(
+              height: 200,
+              child: buildCarImage(car),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final carSelectionProvider = Provider.of<CarSelectionProvider>(context);
+    final selectedCar = carSelectionProvider.selectedCar;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 100.0),
       child: Container(
@@ -54,13 +147,26 @@ class _SummaryState extends State<Summary> {
                       style: Theme.of(context).textTheme.headlineLarge,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Hier sollte das Autoobjekt mit Informationen stehen @Adam machen wir das mit dem Provider ???",
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
+                  if (selectedCar != null)
+                    buildCarCard(Car(
+                      model: selectedCar.model,
+                      brand: selectedCar.brand,
+                      type: selectedCar.type,
+                      baseColor: selectedCar.baseColor,
+                      price: selectedCar.price,
+                      images: selectedCar.images,
+                      exteriorColors: selectedCar.exteriorColors,
+                      interiorColors: selectedCar.interiorColors,
+                      brakeColors: selectedCar.brakeColors,
+                      fuelTypes: selectedCar.fuelTypes,
+                      selectedExteriorColor:
+                          carSelectionProvider.selectedExteriorColor?.name,
+                      selectedInteriorColor:
+                          carSelectionProvider.selectedInteriorColor?.name,
+                      selectedBrakeColor:
+                          carSelectionProvider.selectedBrakeColor?.name,
+                      selectedFuelType: carSelectionProvider.selectedFuelType,
+                    )),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -72,23 +178,23 @@ class _SummaryState extends State<Summary> {
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 0.9,
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: DropdownButton<String>(
                         dropdownColor: Colors.white,
-                        hint: Text(
+                        hint: const Text(
                           "Wählen Sie eine Anrede",
                           style: TextStyle(color: Colors.black),
                         ),
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_drop_down,
                           color: Colors.black,
                         ),
                         value: selectedValueAnrede,
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                         onChanged: (String? newValue) {
                           setState(() {
                             selectedValueAnrede = newValue;
@@ -101,7 +207,7 @@ class _SummaryState extends State<Summary> {
                             child: Text(value),
                           );
                         }).toList(),
-                        underline: SizedBox.shrink(),
+                        underline: const SizedBox.shrink(),
                         // Entfernt den Unterstrich
                         isExpanded:
                             true, // Optional, um sicherzustellen, dass das Dropdown-Menü den gesamten Container füllt
@@ -119,23 +225,23 @@ class _SummaryState extends State<Summary> {
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 0.9,
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: DropdownButton<String>(
                         dropdownColor: Colors.white,
-                        hint: Text(
+                        hint: const Text(
                           "Wählen Sie eine Titel",
                           style: TextStyle(color: Colors.black),
                         ),
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_drop_down,
                           color: Colors.black,
                         ),
                         value: selectedValueTitel,
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                         onChanged: (String? newValue) {
                           setState(() {
                             selectedValueTitel = newValue;
@@ -148,7 +254,7 @@ class _SummaryState extends State<Summary> {
                             child: Text(value),
                           );
                         }).toList(),
-                        underline: SizedBox.shrink(),
+                        underline: const SizedBox.shrink(),
                         // Entfernt den Unterstrich
                         isExpanded: true,
                       ),
@@ -178,7 +284,7 @@ class _SummaryState extends State<Summary> {
                           return null;
                         },
                         cursorColor: Colors.black,
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
@@ -206,14 +312,14 @@ class _SummaryState extends State<Summary> {
                           return null;
                         },
                         cursorColor: Colors.black,
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "E-mail*",
+                      "E-Mail*",
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
@@ -231,14 +337,14 @@ class _SummaryState extends State<Summary> {
                         onChanged: (value) {
                           setState(() {
                             if (validateEmail(value) == null) {
-                              emailBorderColor = Color(0xFFE91e63);
+                              emailBorderColor = const Color(0xFFE91e63);
                             } else {
                               emailBorderColor = Colors.grey.shade300;
                             }
                           });
                         },
                         cursorColor: Colors.black,
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
@@ -267,7 +373,7 @@ class _SummaryState extends State<Summary> {
                           return null;
                         },
                         cursorColor: Colors.black,
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
@@ -288,7 +394,7 @@ class _SummaryState extends State<Summary> {
                       ),
                       child: TextFormField(
                         cursorColor: Colors.black,
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
@@ -315,26 +421,11 @@ class _SummaryState extends State<Summary> {
                           return null;
                         },
                         cursorColor: Colors.black,
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Validate returns true if the form is valid, or false otherwise.
-                        if (_formKey.currentState!.validate()) {
-                          // If the form is valid, display a snackbar. In the real world,
-                          // you'd often call a server or save the information in a database.
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Processing Data')),
-                          );
-                        }
-                      },
-                      child: const Text('Submit'),
-                    ),
-                  ),
+                  const SizedBox(height: 16),
                 ],
               ),
             ),

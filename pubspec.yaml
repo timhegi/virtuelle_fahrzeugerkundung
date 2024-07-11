@@ -1,45 +1,21 @@
 name: virtuelle_fahrzeugerkundung
 description: "A new Flutter project."
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
-# The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# In Android, build-name is used as versionName while build-number used as versionCode.
-# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
-# Read more about iOS versioning at
-# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-# In Windows, build-name is used as the major, minor, and patch parts
-# of the product and file versions while build-number is used as the build suffix.
 version: 1.0.0+1
 
 environment:
   sdk: '>=3.3.4 <4.0.0'
-
-# Dependencies specify other packages that your package needs in order to work.
-# To automatically upgrade your package dependencies to the latest versions
-# consider running `flutter pub upgrade --major-versions`. Alternatively,
-# dependencies can be manually updated by changing the version numbers below to
-# the latest version available on pub.dev. To see which dependencies have newer
-# versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
     sdk: flutter
   fluttertoast: ^8.2.6
   model_viewer_plus: ^1.8.0
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.6
+  cupertino_icons: ^1.0.8
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   hexcolor: ^3.0.1
   provider: ^6.1.2
+  path_provider: ^2.1.3
 
 dev_dependencies:
   flutter_test:
@@ -48,7 +24,7 @@ dev_dependencies:
     sdk: flutter
 
   hive_generator: ^2.0.1
-  build_runner: ^2.4.10
+  build_runner: ^2.4.11
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -57,44 +33,61 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter packages.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/assets/images/
     - lib/assets/3dmodels/
-
-      # An image asset can refer to one or more resolution-specific "variants", see
-      # https://flutter.dev/assets-and-images/#resolution-aware
-
-      # For details regarding adding assets from package dependencies, see
-      # https://flutter.dev/assets-and-images/#from-packages
-
-      # To add custom fonts to your application, add a fonts section here,
-      # in this "flutter" section. Each entry in this list should have a
-      # "family" key with the font family name, and a "fonts" key with a
-      # list giving the asset and other descriptors for the font. For
-      # example:
-      # fonts:
-      #   - family: Schyler
-      #     fonts:
-      #       - asset: fonts/Schyler-Regular.ttf
-      #       - asset: fonts/Schyler-Italic.ttf
-      #         style: italic
-      #   - family: Trajan Pro
-      #     fonts:
-      #       - asset: fonts/TrajanPro.ttf
-      #       - asset: fonts/TrajanPro_Bold.ttf
-      #         weight: 700
-    #
-    # For details regarding fonts from package dependencies,
-    # see https://flutter.dev/custom-fonts/#from-packages
+    - lib/assets/3dmodels/gtrrsas.glb
+    - lib/assets/images/chevrolet_camaro_zl1_2020/int/
+    - lib/assets/images/chevrolet_camaro_zl1_2020/ext/Blau/
+    - lib/assets/images/chevrolet_camaro_zl1_2020/ext/Gelb/
+    - lib/assets/images/chevrolet_camaro_zl1_2020/ext/Grau/
+    - lib/assets/images/chevrolet_camaro_zl1_2020/ext/Rot/
+    - lib/assets/images/ford_mustang_shelby_super_snake_cabrio_2020/int/
+    - lib/assets/images/ford_mustang_shelby_super_snake_cabrio_2020/ext/Grau/
+    - lib/assets/images/ford_mustang_shelby_super_snake_cabrio_2020/ext/Navy/
+    - lib/assets/images/ford_mustang_shelby_super_snake_cabrio_2020/ext/Orange/
+    - lib/assets/images/ford_mustang_shelby_super_snake_cabrio_2020/ext/Silber/
+    - lib/assets/images/ford_mustang_shelby_super_snake_cabrio_2020/ext/Schwarz/
+    - lib/assets/images/genesis_g90_2023/int/
+    - lib/assets/images/genesis_g90_2023/ext/Blau/
+    - lib/assets/images/genesis_g90_2023/ext/Grau/
+    - lib/assets/images/genesis_g90_2023/ext/Grün/
+    - lib/assets/images/genesis_g90_2023/ext/Pink/
+    - lib/assets/images/genesis_g90_2023/ext/Taupe/
+    - lib/assets/images/landrover_rangerover_sv_2023/int/
+    - lib/assets/images/landrover_rangerover_sv_2023/ext/Blau/
+    - lib/assets/images/landrover_rangerover_sv_2023/ext/Grau/
+    - lib/assets/images/landrover_rangerover_sv_2023/ext/Rot/
+    - lib/assets/images/landrover_rangerover_sv_2023/ext/Weiß/
+    - lib/assets/images/mercedes_benz_amg_gt_coupe_2024/int/
+    - lib/assets/images/mercedes_benz_amg_gt_coupe_2024/ext/Gelb/
+    - lib/assets/images/mercedes_benz_amg_gt_coupe_2024/ext/Silber/
+    - lib/assets/images/mercedes_benz_amg_gt_coupe_2024/ext/Stahl/
+    - lib/assets/images/nissan_skyline_r34_gtr_2022/int/
+    - lib/assets/images/nissan_skyline_r34_gtr_2022/ext/armygrün/
+    - lib/assets/images/nissan_skyline_r34_gtr_2022/ext/blau/
+    - lib/assets/images/nissan_skyline_r34_gtr_2022/ext/dunkelgrau/
+    - lib/assets/images/nissan_skyline_r34_gtr_2022/ext/orange/
+    - lib/assets/images/nissan_z_2023/int/
+    - lib/assets/images/nissan_z_2023/ext/blau/
+    - lib/assets/images/nissan_z_2023/ext/dunkelgrau/
+    - lib/assets/images/nissan_z_2023/ext/rot/
+    - lib/assets/images/porsche_911_turbo_s_2021/int/
+    - lib/assets/images/porsche_911_turbo_s_2021/ext/blau/
+    - lib/assets/images/porsche_911_turbo_s_2021/ext/grau/
+    - lib/assets/images/porsche_911_turbo_s_2021/ext/grün/
+    - lib/assets/images/porsche_911_turbo_s_2021/ext/rot/
+    - lib/assets/images/porsche_taycan_2020/int/
+    - lib/assets/images/porsche_taycan_2020/ext/skyblue/
+    - lib/assets/images/porsche_taycan_2020/ext/spacegrau/
+    - lib/assets/images/porsche_taycan_2020/ext/weiß/
+    - lib/assets/images/toyota_gr_86_2022/int/
+    - lib/assets/images/toyota_gr_86_2022/ext/anthrazit/
+    - lib/assets/images/toyota_gr_86_2022/ext/blau/
+    - lib/assets/images/toyota_gr_86_2022/ext/orange/
+    - lib/assets/images/toyota_gr_86_2022/ext/rot/
+    - lib/assets/images/toyota_gr_86_2022/ext/violett/
