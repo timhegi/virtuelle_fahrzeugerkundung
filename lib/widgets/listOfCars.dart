@@ -146,20 +146,22 @@ class _ListOfCarsState extends State<ListOfCars> {
                   fillColor: Theme.of(context).inputDecorationTheme.fillColor,
                   contentPadding:
                       Theme.of(context).inputDecorationTheme.contentPadding,
-                  suffixIcon: (myController.text != "") ? Align(
-                    widthFactor: 1.0,
-                    heightFactor: 1.0,
-                    child: IconButton(
-                      icon: Icon(Icons.close),
-                      onPressed: () {
-                        myController.clear();
-                        setState(() {
-                          filterModel = "";
-                          filterCarsByModel(filterModel);
-                        });
-                      },
-                    ),
-                  ): null,
+                  suffixIcon: (myController.text != "")
+                      ? Align(
+                          widthFactor: 1.0,
+                          heightFactor: 1.0,
+                          child: IconButton(
+                            icon: Icon(Icons.close),
+                            onPressed: () {
+                              myController.clear();
+                              setState(() {
+                                filterModel = "";
+                                filterCarsByModel(filterModel);
+                              });
+                            },
+                          ),
+                        )
+                      : null,
                 ),
                 style: Theme.of(context).textTheme.labelLarge,
                 onChanged: filterCarsByModel,
@@ -289,10 +291,11 @@ class _ListOfCarsState extends State<ListOfCars> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     IconButton(
+                                      key: ValueKey("iconButtonFavorite"),
                                       icon: Icon(
                                         Icons.favorite,
-                                        color:
-                                            Colors.red,//Theme.of(context).iconTheme.color,
+                                        color: Colors
+                                            .red, //Theme.of(context).iconTheme.color,
                                       ),
                                       tooltip: 'Auto zu Favoriten hinzufügen',
                                       onPressed: () {

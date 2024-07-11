@@ -31,6 +31,7 @@ class GradientBottomNavBar extends StatelessWidget {
         selectedItemColor: Colors.white,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
+            key: ValueKey("fovorites"),
             icon: Icon(Icons.favorite, size: 28),
             activeIcon: Icon(Icons.favorite, size: 30),
             label: "Favoriten",
