@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-import 'package:virtuelle_fahrzeugerkundung/appTheme.dart';
 import 'package:virtuelle_fahrzeugerkundung/models/car_model.dart';
 import 'package:virtuelle_fahrzeugerkundung/services/carSelectionProvider.dart';
 import 'package:virtuelle_fahrzeugerkundung/views/customWideFAB.dart';
@@ -10,14 +9,14 @@ import 'package:virtuelle_fahrzeugerkundung/widgets/favoriteCars.dart';
 import 'package:virtuelle_fahrzeugerkundung/widgets/listOfCars.dart';
 import 'package:virtuelle_fahrzeugerkundung/widgets/summary.dart';
 
-import '../models/car.dart';
 import '../widgets/configuration.dart';
 import 'GradientBottomNavBar.dart';
 
 class ConfigurationView extends StatefulWidget {
   final int initialTabIndex;
 
-  const ConfigurationView({Key? key, this.initialTabIndex = 0}) : super(key: key);
+  const ConfigurationView({Key? key, this.initialTabIndex = 0})
+      : super(key: key);
 
   @override
   State<ConfigurationView> createState() => _ConfigurationViewState();
@@ -31,26 +30,33 @@ class _ConfigurationViewState extends State<ConfigurationView>
   bool _secondTabReady = false;
   late TabController _tabController;
   final GlobalKey<SummaryState> _summaryKey = GlobalKey<SummaryState>();
-
-  void _onCarSelected() {
-    setState(() {
-      _firstTabReady = true;
-      _tabController.animateTo(1);
-    });
-  }
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    if (Hive.box<Car>("cars").isEmpty) _selectedBottomNavIndex = 1;
-    _tabController = TabController(
-        length: 3, vsync: this, initialIndex: widget.initialTabIndex);
+    _tabController = TabController(length: 3, vsync: this, initialIndex: widget.initialTabIndex);
     _tabController.addListener(_handleTabSelection);
+    _initializeView();
+  }
 
-    _selectedTopNavIndex = widget.initialTabIndex;
-    _selectedBottomNavIndex = 1;
-    _firstTabReady = widget.initialTabIndex > 0;
-    _secondTabReady = widget.initialTabIndex > 1;
+  Future<void> _initializeView() async {
+    final carBox = await Hive.openBox<Car>('cars');
+    if (!mounted) return;
+
+    setState(() {
+      if (carBox.isNotEmpty && widget.initialTabIndex == 0) {
+        _selectedBottomNavIndex = 0;
+        _selectedTopNavIndex = 0;
+      } else {
+        _selectedBottomNavIndex = 1;
+        _selectedTopNavIndex = widget.initialTabIndex;
+        _firstTabReady = widget.initialTabIndex > 0;
+        _secondTabReady = widget.initialTabIndex > 1;
+      }
+      _tabController.index = _selectedTopNavIndex;
+      _isInitialized = true;
+    });
   }
 
   @override
@@ -58,6 +64,13 @@ class _ConfigurationViewState extends State<ConfigurationView>
     _tabController.removeListener(_handleTabSelection);
     _tabController.dispose();
     super.dispose();
+  }
+
+  void _onCarSelected() {
+    setState(() {
+      _firstTabReady = true;
+      _tabController.animateTo(1);
+    });
   }
 
   void _handleTabSelection() {
@@ -123,6 +136,15 @@ class _ConfigurationViewState extends State<ConfigurationView>
 
   @override
   Widget build(BuildContext context) {
+    if (!_isInitialized) {
+      return const Scaffold(
+        body: Center(
+            child: CircularProgressIndicator(
+          color: Colors.black,
+        )),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -131,29 +153,29 @@ class _ConfigurationViewState extends State<ConfigurationView>
             : const Text("Bestellung"),
         bottom: _selectedBottomNavIndex == 1
             ? TabBar(
-          controller: _tabController,
-          dividerHeight: 0.0,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.grey,
-          indicatorColor: Colors.green,
-          indicatorSize: TabBarIndicatorSize.tab,
-          indicatorWeight: 5.0,
-          tabs: [
-            const Tab(text: 'Auswahl'),
-            Tab(
-              child: Opacity(
-                opacity: _firstTabReady ? 1.0 : 0.3,
-                child: const Text('Anpassen'),
-              ),
-            ),
-            Tab(
-              child: Opacity(
-                opacity: _secondTabReady ? 1.0 : 0.3,
-                child: const Text('Abschluss'),
-              ),
-            ),
-          ],
-        )
+                controller: _tabController,
+                dividerHeight: 0.0,
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.grey,
+                indicatorColor: Colors.green,
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicatorWeight: 5.0,
+                tabs: [
+                  const Tab(text: 'Auswahl'),
+                  Tab(
+                    child: Opacity(
+                      opacity: _firstTabReady ? 1.0 : 0.3,
+                      child: const Text('Anpassen'),
+                    ),
+                  ),
+                  Tab(
+                    child: Opacity(
+                      opacity: _secondTabReady ? 1.0 : 0.3,
+                      child: const Text('Abschluss'),
+                    ),
+                  ),
+                ],
+              )
             : null,
       ),
       body: Stack(
@@ -162,47 +184,52 @@ class _ConfigurationViewState extends State<ConfigurationView>
             child: _selectedBottomNavIndex == 0
                 ? const FavoriteCars()
                 : IndexedStack(
-              index: _selectedTopNavIndex,
-              children: [
-                ListOfCars(onCarSelected: _onCarSelected),
-                Consumer<CarSelectionProvider>(
-                  builder: (context, carProvider, child) {
-                    final selectedCar = carProvider.selectedCar;
-                    if (selectedCar == null) {
-                      return const Center(
-                          child: Text('Kein Auto ausgewählt'));
-                    }
-                    return Configuration(
-                      selectedCar: selectedCar,
-                    );
-                  },
-                ),
-                Summary(
-                  key: _summaryKey,
-                  onSubmit: (bool success) {
-                    if (success) {
-                      Fluttertoast.showToast(
-                          msg: "Anfrage abgeschickt",
-                          toastLength: Toast.LENGTH_LONG,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 2,
-                          backgroundColor: Colors.green,
-                          textColor: Colors.white,
-                          fontSize: 14.0);
-                    } else {
-                      Fluttertoast.showToast(
-                          msg: "Fehler beim Absenden",
-                          toastLength: Toast.LENGTH_LONG,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 2,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                          fontSize: 14.0);
-                    }
-                  },
-                ),
-              ],
-            ),
+                    index: _selectedTopNavIndex,
+                    children: [
+                      ListOfCars(onCarSelected: _onCarSelected),
+                      Consumer<CarSelectionProvider>(
+                        builder: (context, carProvider, child) {
+                          final selectedCar = carProvider.selectedCar;
+                          if (selectedCar == null) {
+                            return const Center(
+                                child: Text('Kein Auto ausgewählt'));
+                          }
+                          return Configuration(
+                            selectedCar: selectedCar,
+                          );
+                        },
+                      ),
+                      Summary(
+                        key: _summaryKey,
+                        onSubmit: (bool success) {
+                          if (success) {
+                            Fluttertoast.showToast(
+                                msg: "Anfrage abgeschickt",
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 2,
+                                backgroundColor: Colors.green,
+                                textColor: Colors.white,
+                                fontSize: 14.0);
+                            setState(() {
+                              _tabController.animateTo(0);
+                              _firstTabReady = false;
+                              _secondTabReady = false;
+                            });
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: "Fehler beim Absenden",
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 2,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 14.0);
+                          }
+                        },
+                      ),
+                    ],
+                  ),
           ),
           Positioned(
             left: 0,
@@ -217,25 +244,24 @@ class _ConfigurationViewState extends State<ConfigurationView>
       ),
       floatingActionButton: _selectedBottomNavIndex == 1
           ? Consumer<CarSelectionProvider>(
-        builder: (context, carProvider, child) {
-          final selectedCar = carProvider.selectedCar;
-          if (_selectedTopNavIndex != 0) {
-            return CustomWideFAB(
-              onPressed: _onFabPressed,
-              mainText:
-              '${selectedCar?.brand ?? ''} ${selectedCar?.model ?? ''}',
-              subText: 'All prices incl.',
-              price: selectedCar?.price ?? 0.0,
-              icon: _getFABIcon(),
-            );
-          } else {
-            return const SizedBox.shrink();
-          }
-        },
-      )
+              builder: (context, carProvider, child) {
+                final selectedCar = carProvider.selectedCar;
+                if (_selectedTopNavIndex != 0) {
+                  return CustomWideFAB(
+                    onPressed: _onFabPressed,
+                    mainText:
+                        '${selectedCar?.brand ?? ''} ${selectedCar?.model ?? ''}',
+                    subText: 'All prices incl.',
+                    price: selectedCar?.price ?? 0.0,
+                    icon: _getFABIcon(),
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            )
           : null,
-      floatingActionButtonLocation:
-      FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

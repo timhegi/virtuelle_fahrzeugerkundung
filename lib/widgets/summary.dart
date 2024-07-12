@@ -77,9 +77,14 @@ class SummaryState extends State<Summary> {
           return PageView.builder(
             itemCount: snapshot.data!.length,
             itemBuilder: (context, imageIndex) {
-              return Image.asset(
-                snapshot.data![imageIndex],
-                fit: BoxFit.cover,
+              return LayoutBuilder(
+                builder: (context, constraints) {
+                  return Image.asset(
+                    snapshot.data![imageIndex],
+                    fit: BoxFit.contain,
+                    width: constraints.maxWidth,
+                  );
+                },
               );
             },
           );

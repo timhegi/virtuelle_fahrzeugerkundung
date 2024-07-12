@@ -89,31 +89,43 @@ class _ConfigurationState extends State<Configuration> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          showInterior = !showInterior;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.all(16),
-                      ),
-                      child: Text(showInterior
-                          ? 'Zur Außenansicht'
-                          : 'Zur Innenansicht'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const ModelRenderer(),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        // Add padding to avoid buttons sticking to each other
+                        child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              showInterior = !showInterior;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.all(16),
                           ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.all(16),
+                          child: Text(showInterior
+                              ? 'Zur Außenansicht'
+                              : 'Zur Innenansicht'),
+                        ),
                       ),
-                      child: Text('3D Modell laden'),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        // Add padding to avoid buttons sticking to each other
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const ModelRenderer(),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.all(16),
+                          ),
+                          child: const Text('3D Modell laden'),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -126,11 +138,16 @@ class _ConfigurationState extends State<Configuration> {
                             ? interiorImages.length
                             : exteriorImages.length,
                         itemBuilder: (context, index) {
-                          return Image.asset(
-                            showInterior
-                                ? interiorImages[index]
-                                : exteriorImages[index],
-                            fit: BoxFit.cover,
+                          return LayoutBuilder(
+                            builder: (context, constraints) {
+                              return Image.asset(
+                                showInterior
+                                    ? interiorImages[index]
+                                    : exteriorImages[index],
+                                fit: BoxFit.contain,
+                                width: constraints.maxWidth,
+                              );
+                            },
                           );
                         },
                       ),
@@ -145,7 +162,7 @@ class _ConfigurationState extends State<Configuration> {
                           valueListenable: Hive.box<Car>('cars').listenable(),
                           builder: (context, Box<Car> box, _) {
                             bool isFavorite = box.values
-                                .any((favCar) => favCar.model == car?.model);
+                                .any((favCar) => favCar.model == car.model);
                             return Icon(
                               isFavorite
                                   ? Icons.favorite
@@ -160,7 +177,7 @@ class _ConfigurationState extends State<Configuration> {
                 ),
                 buildColorSelector(
                   "Innenfarbe",
-                  car!.interiorColors,
+                  car.interiorColors,
                   carProvider.selectedInteriorColor!,
                   (ColorInfo color) {
                     setState(() {

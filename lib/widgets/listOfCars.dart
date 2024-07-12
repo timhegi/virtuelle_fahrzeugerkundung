@@ -31,100 +31,6 @@ class _ListOfCarsState extends State<ListOfCars> {
 
   final List<CarObject> carList = [
     CarObject(
-      model: "Taycan 2020",
-      brand: "Porsche",
-      type: "Electric",
-      baseColor: "Weiß",
-      price: 103800,
-      images: 'assets/images/porsche_taycan_2020',
-      exteriorColors: [
-        ColorInfo(color: Colors.lightBlueAccent, name: 'Skyblue'),
-        ColorInfo(color: Colors.black12, name: 'Spacegrau'),
-        ColorInfo(color: Colors.white, name: 'Weiß'),
-      ],
-      interiorColors: [
-        ColorInfo(color: Colors.green, name: 'Army Green'),
-        ColorInfo(color: Colors.red, name: 'Bordeaux Red'),
-        ColorInfo(color: Colors.grey, name: 'Dark Grey'),
-        ColorInfo(color: Colors.pink, name: 'Darkened Pink'),
-        ColorInfo(color: Colors.blue, name: 'Deep Blue'),
-        ColorInfo(color: Colors.brown, name: 'Deep Taupe'),
-        ColorInfo(color: Colors.green, name: 'Olive'),
-        ColorInfo(color: Colors.purple, name: 'Purple'),
-        ColorInfo(color: Colors.red, name: 'Rose Red'),
-      ],
-      brakeColors: [
-        ColorInfo(color: Colors.red, name: 'Rot'),
-        ColorInfo(color: Colors.black, name: 'Schwarz'),
-        ColorInfo(color: Colors.blueAccent, name: 'Blau'),
-        ColorInfo(color: Colors.yellow, name: 'Gelb'),
-      ],
-      fuelTypes: [
-        'Elektro',
-      ],
-    ),
-    CarObject(
-      model: "Camaro ZL1 2020",
-      brand: "Chevrolet",
-      type: "Muscle Car",
-      baseColor: "Gelb",
-      price: 63000,
-      images: 'assets/images/chevrolet_camaro_zl1_2020',
-      exteriorColors: [
-        ColorInfo(color: Colors.blue, name: 'Blau'),
-        ColorInfo(color: Colors.yellow, name: 'Gelb'),
-        ColorInfo(color: Colors.grey, name: 'Grau'),
-        ColorInfo(color: Colors.red, name: 'Rot'),
-      ],
-      interiorColors: [
-        ColorInfo(color: Colors.black, name: 'Black'),
-        ColorInfo(color: Colors.blue, name: 'Blue'),
-        ColorInfo(color: Colors.red, name: 'Red'),
-        ColorInfo(color: Colors.white24, name: 'Silver'),
-      ],
-      brakeColors: [
-        ColorInfo(color: Colors.red, name: 'Rot'),
-        ColorInfo(color: Colors.black, name: 'Schwarz'),
-        ColorInfo(color: Colors.blueAccent, name: 'Blau'),
-        ColorInfo(color: Colors.yellow, name: 'Gelb'),
-      ],
-      fuelTypes: [
-        'Benzin',
-        'Diesel',
-      ],
-    ),
-    CarObject(
-      model: "Mustang Shelby Super Snake Cabrio 2020",
-      brand: "Ford",
-      type: "Convertible",
-      baseColor: "Schwarz",
-      price: 113460,
-      images: 'assets/images/ford_mustang_shelby_2020',
-      exteriorColors: [
-        ColorInfo(color: Colors.white, name: 'Grau'),
-        ColorInfo(color: const Color(0xFF164C77), name: 'Navy'),
-        ColorInfo(color: Colors.orange, name: 'Orange'),
-        ColorInfo(color: Colors.black, name: 'Schwarz'),
-        ColorInfo(color: Colors.blue, name: 'Silber'),
-      ],
-      interiorColors: [
-        ColorInfo(color: Colors.black, name: 'Black'),
-        ColorInfo(color: Colors.brown, name: 'Brown'),
-        ColorInfo(color: Colors.red, name: 'Red'),
-        ColorInfo(color: Colors.white24, name: 'Silver'),
-      ],
-      brakeColors: [
-        ColorInfo(color: Colors.red, name: 'Rot'),
-        ColorInfo(color: Colors.black, name: 'Schwarz'),
-        ColorInfo(color: Colors.blueAccent, name: 'Blau'),
-        ColorInfo(color: Colors.yellow, name: 'Gelb'),
-      ],
-      fuelTypes: [
-        'Benzin',
-        'Diesel',
-      ],
-    ),
-    CarObject(
       model: "G90 2023",
       brand: "Genesis",
       type: "Luxury Sedan",
@@ -361,6 +267,100 @@ class _ListOfCarsState extends State<ListOfCars> {
         'Hybrid',
       ],
     ),
+    CarObject(
+      model: "Taycan 2020",
+      brand: "Porsche",
+      type: "Electric",
+      baseColor: "Weiß",
+      price: 103800,
+      images: 'assets/images/porsche_taycan_2020',
+      exteriorColors: [
+        ColorInfo(color: Colors.lightBlueAccent, name: 'Skyblue'),
+        ColorInfo(color: Colors.black12, name: 'Spacegrau'),
+        ColorInfo(color: Colors.white, name: 'Weiß'),
+      ],
+      interiorColors: [
+        ColorInfo(color: Colors.green, name: 'Army Green'),
+        ColorInfo(color: Colors.red, name: 'Bordeaux Red'),
+        ColorInfo(color: Colors.grey, name: 'Dark Grey'),
+        ColorInfo(color: Colors.pink, name: 'Darkened Pink'),
+        ColorInfo(color: Colors.blue, name: 'Deep Blue'),
+        ColorInfo(color: Colors.brown, name: 'Deep Taupe'),
+        ColorInfo(color: Colors.green, name: 'Olive'),
+        ColorInfo(color: Colors.purple, name: 'Purple'),
+        ColorInfo(color: Colors.red, name: 'Rose Red'),
+      ],
+      brakeColors: [
+        ColorInfo(color: Colors.red, name: 'Rot'),
+        ColorInfo(color: Colors.black, name: 'Schwarz'),
+        ColorInfo(color: Colors.blueAccent, name: 'Blau'),
+        ColorInfo(color: Colors.yellow, name: 'Gelb'),
+      ],
+      fuelTypes: [
+        'Elektro',
+      ],
+    ),
+    CarObject(
+      model: "Camaro ZL1 2020",
+      brand: "Chevrolet",
+      type: "Muscle Car",
+      baseColor: "Gelb",
+      price: 63000,
+      images: 'assets/images/chevrolet_camaro_zl1_2020',
+      exteriorColors: [
+        ColorInfo(color: Colors.blue, name: 'Blau'),
+        ColorInfo(color: Colors.yellow, name: 'Gelb'),
+        ColorInfo(color: Colors.grey, name: 'Grau'),
+        ColorInfo(color: Colors.red, name: 'Rot'),
+      ],
+      interiorColors: [
+        ColorInfo(color: Colors.black, name: 'Black'),
+        ColorInfo(color: Colors.blue, name: 'Blue'),
+        ColorInfo(color: Colors.red, name: 'Red'),
+        ColorInfo(color: Colors.white24, name: 'Silver'),
+      ],
+      brakeColors: [
+        ColorInfo(color: Colors.red, name: 'Rot'),
+        ColorInfo(color: Colors.black, name: 'Schwarz'),
+        ColorInfo(color: Colors.blueAccent, name: 'Blau'),
+        ColorInfo(color: Colors.yellow, name: 'Gelb'),
+      ],
+      fuelTypes: [
+        'Benzin',
+        'Diesel',
+      ],
+    ),
+    CarObject(
+      model: "Mustang Shelby Super Snake Cabrio 2020",
+      brand: "Ford",
+      type: "Convertible",
+      baseColor: "Schwarz",
+      price: 113460,
+      images: 'assets/images/ford_mustang_shelby_2020',
+      exteriorColors: [
+        ColorInfo(color: Colors.white, name: 'Grau'),
+        ColorInfo(color: const Color(0xFF164C77), name: 'Navy'),
+        ColorInfo(color: Colors.orange, name: 'Orange'),
+        ColorInfo(color: Colors.black, name: 'Schwarz'),
+        ColorInfo(color: Colors.blue, name: 'Silber'),
+      ],
+      interiorColors: [
+        ColorInfo(color: Colors.black, name: 'Black'),
+        ColorInfo(color: Colors.brown, name: 'Brown'),
+        ColorInfo(color: Colors.red, name: 'Red'),
+        ColorInfo(color: Colors.white24, name: 'Silver'),
+      ],
+      brakeColors: [
+        ColorInfo(color: Colors.red, name: 'Rot'),
+        ColorInfo(color: Colors.black, name: 'Schwarz'),
+        ColorInfo(color: Colors.blueAccent, name: 'Blau'),
+        ColorInfo(color: Colors.yellow, name: 'Gelb'),
+      ],
+      fuelTypes: [
+        'Benzin',
+        'Diesel',
+      ],
+    ),
   ];
 
   @override
@@ -498,178 +498,105 @@ class _ListOfCarsState extends State<ListOfCars> {
                         onTap: () => _selectCar(filteredCars[index]),
                         child: Card(
                           color: Theme.of(context).cardColor,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                height: 100,
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                child: buildCarImage(filteredCars[index]),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Modell",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall),
-                                    Text("Marke",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall),
-                                    Text("Typ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall),
-                                    Text("Grundfarbe",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall),
-                                    Text("Preis",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width: 120,
-                                      child: Text(
-                                        filteredCars
-                                            .elementAt(index)
-                                            .model
-                                            .toString(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 120,
-                                      child: Text(
-                                        filteredCars
-                                            .elementAt(index)
-                                            .brand
-                                            .toString(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 120,
-                                      child: Text(
-                                        filteredCars
-                                            .elementAt(index)
-                                            .type
-                                            .toString(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 120,
-                                      child: Text(
-                                        filteredCars
-                                            .elementAt(index)
-                                            .baseColor
-                                            .toString(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 120,
-                                      child: Text(
-                                        "${filteredCars.elementAt(index).price} €",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  ValueListenableBuilder(
-                                    valueListenable:
-                                        Hive.box<Car>('cars').listenable(),
-                                    builder: (context, Box<Car> box, _) {
-                                      bool isFavorite = box.values.any((car) =>
-                                          car.model ==
-                                          filteredCars[index].model);
-                                      return IconButton(
-                                        icon: Icon(
-                                          isFavorite
-                                              ? Icons.favorite
-                                              : Icons.favorite_border,
-                                          color: Colors.white,
-                                        ),
-                                        tooltip: 'Auto zu Favoriten hinzufügen',
-                                        onPressed: () {
-                                          setState(() {
-                                            Hive.box<Car>("cars").add(Car(
-                                              model: filteredCars
-                                                  .elementAt(index)
-                                                  .model,
-                                              brand: filteredCars
-                                                  .elementAt(index)
-                                                  .brand,
-                                              type: filteredCars
-                                                  .elementAt(index)
-                                                  .type,
-                                              baseColor: filteredCars
-                                                  .elementAt(index)
-                                                  .baseColor,
-                                              price: filteredCars
-                                                  .elementAt(index)
-                                                  .price,
-                                              images: filteredCars
-                                                  .elementAt(index)
-                                                  .images,
-                                              exteriorColors: filteredCars
-                                                  .elementAt(index)
-                                                  .exteriorColors,
-                                              interiorColors: filteredCars
-                                                  .elementAt(index)
-                                                  .interiorColors,
-                                              brakeColors: filteredCars
-                                                  .elementAt(index)
-                                                  .brakeColors,
-                                              fuelTypes: filteredCars
-                                                  .elementAt(index)
-                                                  .fuelTypes,
-                                            ));
-                                          });
-                                        },
-                                      );
-                                    },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 3,
+                                  child: SizedBox(
+                                    height: 100,
+                                    child: buildCarImage(filteredCars[index]),
                                   ),
-                                ],
-                              ),
-                            ],
+                                ),
+                                Expanded(
+                                  flex: 7,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "${filteredCars[index].brand} ${filteredCars[index].model}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        Text(
+                                          "Typ: ${filteredCars[index].type}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                        Text(
+                                          "Grundfarbe: ${filteredCars[index].baseColor}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                        Text(
+                                          "Preis: ${filteredCars[index].price} €",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                ValueListenableBuilder(
+                                  valueListenable:
+                                      Hive.box<Car>('cars').listenable(),
+                                  builder: (context, Box<Car> box, _) {
+                                    bool isFavorite = box.values.any((car) =>
+                                        car.model == filteredCars[index].model);
+                                    return IconButton(
+                                      icon: Icon(
+                                        isFavorite
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          if (isFavorite) {
+                                            box.deleteAt(box.values
+                                                .toList()
+                                                .indexWhere((car) =>
+                                                    car.model ==
+                                                    filteredCars[index].model));
+                                          } else {
+                                            box.add(Car(
+                                              model: filteredCars[index].model,
+                                              brand: filteredCars[index].brand,
+                                              type: filteredCars[index].type,
+                                              baseColor:
+                                                  filteredCars[index].baseColor,
+                                              price: filteredCars[index].price,
+                                              images:
+                                                  filteredCars[index].images,
+                                              exteriorColors:
+                                                  filteredCars[index]
+                                                      .exteriorColors,
+                                              interiorColors:
+                                                  filteredCars[index]
+                                                      .interiorColors,
+                                              brakeColors: filteredCars[index]
+                                                  .brakeColors,
+                                              fuelTypes:
+                                                  filteredCars[index].fuelTypes,
+                                            ));
+                                          }
+                                        });
+                                      },
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

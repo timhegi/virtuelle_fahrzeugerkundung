@@ -35,8 +35,12 @@ class _FavoriteCarsState extends State<FavoriteCars> {
 
   void _selectCar(Car car) {
     CarObject selectedCar = convertCarToCarObject(car);
-    Provider.of<CarSelectionProvider>(context, listen: false)
-        .selectCar(selectedCar);
+    final carProvider = Provider.of<CarSelectionProvider>(context, listen: false);
+    carProvider.selectCar(selectedCar);
+    carProvider.selectExteriorColor(ColorInfo(name: car.selectedExteriorColor ?? car.baseColor ?? '', color: Colors.grey));
+    carProvider.selectInteriorColor(ColorInfo(name: car.selectedInteriorColor ?? '', color: Colors.grey));
+    carProvider.selectBrakeColor(ColorInfo(name: car.selectedBrakeColor ?? '', color: Colors.grey));
+    carProvider.selectFuelType(car.selectedFuelType ?? '');
 
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
@@ -73,14 +77,19 @@ class _FavoriteCarsState extends State<FavoriteCars> {
           return PageView.builder(
             itemCount: snapshot.data!.length,
             itemBuilder: (context, imageIndex) {
-              return Image.asset(
-                snapshot.data![imageIndex],
-                fit: BoxFit.cover,
+              return LayoutBuilder(
+                builder: (context, constraints) {
+                  return Image.asset(
+                    snapshot.data![imageIndex],
+                    fit: BoxFit.contain,
+                    width: constraints.maxWidth,
+                  );
+                },
               );
             },
           );
         } else {
-          return Center(child: Text('Keine Bilder gefunden'));
+          return const Center(child: Text('Keine Bilder gefunden'));
         }
       },
     );
