@@ -13,7 +13,8 @@ class ModelRenderer extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('3D Model')),
       body: const ModelViewer(
-        src: '../3dmodels/gtrrsas.glb',
+        src:
+            'https://sketchfab.com/3d-models/gtr-dcc83e99b0bf429ea04e87604388ce2b',
         alt: 'Ein 3D Modell eines Autos',
         ar: false,
         autoRotate: true,

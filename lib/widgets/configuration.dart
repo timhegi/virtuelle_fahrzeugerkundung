@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
-import 'package:virtuelle_fahrzeugerkundung/widgets/favoriteCars.dart';
 import 'package:virtuelle_fahrzeugerkundung/widgets/modelRenderer.dart';
 
 import '../models/car.dart';

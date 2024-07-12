@@ -39,19 +39,17 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/assets/images/
-    - lib/assets/3dmodels/
-    - lib/assets/3dmodels/gtrrsas.glb
     - lib/assets/images/chevrolet_camaro_zl1_2020/int/
     - lib/assets/images/chevrolet_camaro_zl1_2020/ext/Blau/
     - lib/assets/images/chevrolet_camaro_zl1_2020/ext/Gelb/
     - lib/assets/images/chevrolet_camaro_zl1_2020/ext/Grau/
     - lib/assets/images/chevrolet_camaro_zl1_2020/ext/Rot/
-    - lib/assets/images/ford_mustang_shelby_super_snake_cabrio_2020/int/
-    - lib/assets/images/ford_mustang_shelby_super_snake_cabrio_2020/ext/Grau/
-    - lib/assets/images/ford_mustang_shelby_super_snake_cabrio_2020/ext/Navy/
-    - lib/assets/images/ford_mustang_shelby_super_snake_cabrio_2020/ext/Orange/
-    - lib/assets/images/ford_mustang_shelby_super_snake_cabrio_2020/ext/Silber/
-    - lib/assets/images/ford_mustang_shelby_super_snake_cabrio_2020/ext/Schwarz/
+    - lib/assets/images/ford_mustang_shelby_2020/int/
+    - lib/assets/images/ford_mustang_shelby_2020/ext/Grau/
+    - lib/assets/images/ford_mustang_shelby_2020/ext/Navy/
+    - lib/assets/images/ford_mustang_shelby_2020/ext/Orange/
+    - lib/assets/images/ford_mustang_shelby_2020/ext/Silber/
+    - lib/assets/images/ford_mustang_shelby_2020/ext/Schwarz/
     - lib/assets/images/genesis_g90_2023/int/
     - lib/assets/images/genesis_g90_2023/ext/Blau/
     - lib/assets/images/genesis_g90_2023/ext/Grau/

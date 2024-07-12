@@ -99,12 +99,12 @@ class _ListOfCarsState extends State<ListOfCars> {
       type: "Convertible",
       baseColor: "Schwarz",
       price: 113460,
-      images: 'assets/images/ford_mustang_shelby_super_snake_cabrio_2020',
+      images: 'assets/images/ford_mustang_shelby_2020',
       exteriorColors: [
         ColorInfo(color: Colors.white, name: 'Grau'),
-        ColorInfo(color: Colors.black, name: 'Navy'),
-        ColorInfo(color: Colors.grey, name: 'Orange'),
-        ColorInfo(color: Colors.blue, name: 'Schwarz'),
+        ColorInfo(color: const Color(0xFF164C77), name: 'Navy'),
+        ColorInfo(color: Colors.orange, name: 'Orange'),
+        ColorInfo(color: Colors.black, name: 'Schwarz'),
         ColorInfo(color: Colors.blue, name: 'Silber'),
       ],
       interiorColors: [
@@ -368,9 +368,6 @@ class _ListOfCarsState extends State<ListOfCars> {
     super.initState();
     filteredCars = carList;
     openBox();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   Provider.of<CarSelectionProvider>(context, listen: false).resetSelections();
-    // });
   }
 
   void _selectCar(CarObject car) {
