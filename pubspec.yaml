@@ -39,6 +39,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/assets/images/
+    - lib/assets/3dmodels/
+    - lib/assets/3dmodels/gtrrsas.glb
     - lib/assets/images/chevrolet_camaro_zl1_2020/int/
     - lib/assets/images/chevrolet_camaro_zl1_2020/ext/Blau/
     - lib/assets/images/chevrolet_camaro_zl1_2020/ext/Gelb/
