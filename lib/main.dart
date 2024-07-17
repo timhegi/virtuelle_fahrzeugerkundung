@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:virtuelle_fahrzeugerkundung/appTheme.dart';
 import 'package:virtuelle_fahrzeugerkundung/models/car_model.dart';
-import 'package:virtuelle_fahrzeugerkundung/models/color_info_adapter.dart'; // Add this import
+import 'package:virtuelle_fahrzeugerkundung/models/color_info_adapter.dart';
 import 'package:virtuelle_fahrzeugerkundung/services/carSelectionProvider.dart';
 import 'package:virtuelle_fahrzeugerkundung/views/configurationView.dart';
 
@@ -12,7 +12,7 @@ void main() async {
 
   await Hive.initFlutter();
   Hive.registerAdapter(CarAdapter());
-  Hive.registerAdapter(ColorInfoAdapter()); // Add this line
+  Hive.registerAdapter(ColorInfoAdapter());
 
   await Hive.openBox<Car>('cars');
 

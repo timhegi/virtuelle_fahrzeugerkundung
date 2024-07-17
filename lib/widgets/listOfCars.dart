@@ -554,6 +554,7 @@ class _ListOfCarsState extends State<ListOfCars> {
                                     bool isFavorite = box.values.any((car) =>
                                         car.model == filteredCars[index].model);
                                     return IconButton(
+                                      key: ValueKey("iconButtonFavorite"),
                                       icon: Icon(
                                         isFavorite
                                             ? Icons.favorite
